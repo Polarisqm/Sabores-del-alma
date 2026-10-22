@@ -1,0 +1,18 @@
+# node
+node_modules/
+npm-debug.log*
+
+# python
+__pycache__/
+venv/
+.venv/
+
+# secretos, nunca se suben xdddd (incompleto)
+.env
+.ev.
+en.ve
+# del sistema
+.DS_Store
+Thumbs.db
+provisional
+cache
