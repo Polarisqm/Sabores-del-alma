@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="description" content="Sabores del Alma: postres que representan emociones. Elige cómo te sientes y descubre tu color, tu sabor y tu postre.">
+  <title>Sabores del Alma | Siente, expresa y saborea</title>
+  <link rel="stylesheet" href="css/styles.css">
+
+  <link rel="icon" href="img/favicon.png">
+
+  <script>document.documentElement.classList.add("con-js");</script>
+</head>
+
+
+<body>
+  <canvas id="fondo" aria-hidden="true"></canvas>
+  <a href="#contenido" class="saltar">Saltar al contenido</a>
+
+  <div class="franja">Postres de emociones<span class="franja-extra"> · Proyecto final del programa Jóvenes Creativos · No reemplaza el apoyo psicológico ni médico</span></div>
+
+  <header class="cabecera">
+    <a href="#/" class="logo"><img src="img/icono.png" alt="" width="42" height="42"><span>Sabores del Alma</span></a>
+    <button type="button" class="boton-menu" id="boton-menu" aria-expanded="false" aria-controls="menu-principal">Menú</button>
+
+    <nav id="menu-principal" class="menu" aria-label="Principal">
+      <ul>
+        <li class="con-panel">
+          <button type="button" class="enlace-menu" aria-expanded="false">Postres</button>
+          <div class="panel">
+            <div>
+              <h2>Nuestros postres</h2>
+              <ul>
+                <li><a href="#/emocion/alegria">Dulce Aurora <small>Alegría</small></a></li>
+                <li><a href="#/emocion/tristeza">Luna Serena <small>Tristeza</small></a></li>
+                <li><a href="#/emocion/ira">Fuego Carmesí <small>Ira</small></a></li>
+                <li><a href="#/emocion/miedo">Velo Nocturno <small>Miedo</small></a></li>
+                <li><a href="#/emocion/asco">Ámbar Velado <small>Asco</small></a></li>
+                <li><a href="#/emocion/sorpresa">Secreto Dorado <small>Sorpresa</small></a></li>
+                <li><a href="#/emocion/desprecio">Desdén <small>Desprecio</small></a></li>
+              </ul>
+            </div>
+            <div>
+              <h2>Explora</h2>
+              <ul>
+                <li><a href="#/menu">Ver todos los postres</a></li>
+                <li><a href="#/emociones">¿Cómo te sientes?</a></li>
+                <li><a href="#/mezclador">Mezclador de postres</a></li>
+              </ul>
+            </div>
+          </div>
+        </li>
+        <li><a class="enlace-menu" href="#/ciencia">Ciencia</a></li>
+        <li><a class="enlace-menu" href="#/proyecto">El proyecto</a></li>
+        <li><a class="enlace-menu" href="#/contacto">Contacto</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="contenido" tabindex="-1">
+
+    <!-- ===== INICIO: funciona como portal ===== -->
+    <section class="vista" data-vista="inicio" data-titulo="Inicio">
+      <div class="hero">
+        <div>
+          <h1>Sabores del Alma</h1>
+          <p class="etiqueta-oro">Postres de emociones</p>
+          <p class="frase">Cada postre guarda una emoción. Encuentra el tuyo.</p>
+          <p>Siete postres, siete colores y siete historias para sentir, expresar y saborear lo que llevas dentro.</p>
+          <div class="botones">
+            <a href="#/menu" class="boton boton-principal">Ver los postres</a>
+            <a href="#/emociones" class="boton">¿Cómo te sientes?</a>
+          </div>
+        </div>
+        <img src="img/logo.jpg" alt="Logotipo de Sabores del Alma: un postre de gelatina con fresa y arándano">
+      </div>
+
+      <div class="contenedor">
+        <!-- el js elige un postre distinto cada día -->
+        <a href="#/menu" class="del-dia" id="del-dia">
+          <img id="dd-img" alt="">
+          <div>
+            <span>Postre del día</span>
+            <b id="dd-nombre"></b>
+            <i id="dd-emocion"></i>
+            <em id="dd-frase"></em>
+            <strong class="ver-mas">Conocer este postre</strong>
+          </div>
+        </a>
+
+        <h2>Los siete postres</h2>
+        <div class="cinta">
+          <a href="#/emocion/alegria" data-emocion="alegria"><img src="img/postre-alegria.jpg" alt="Dulce Aurora"><b>Dulce Aurora</b><span>Alegría</span></a>
+          <a href="#/emocion/tristeza" data-emocion="tristeza"><img src="img/postre-tristeza.jpg" alt="Luna Serena"><b>Luna Serena</b><span>Tristeza</span></a>
+          <a href="#/emocion/ira" data-emocion="ira"><img src="img/postre-ira.jpg" alt="Fuego Carmesí"><b>Fuego Carmesí</b><span>Ira</span></a>
+          <a href="#/emocion/miedo" data-emocion="miedo"><img src="img/postre-miedo.jpg" alt="Velo Nocturno"><b>Velo Nocturno</b><span>Miedo</span></a>
+          <a href="#/emocion/asco" data-emocion="asco"><img src="img/postre-asco.jpg" alt="Ámbar Velado"><b>Ámbar Velado</b><span>Asco</span></a>
+          <a href="#/emocion/sorpresa" data-emocion="sorpresa"><img src="img/postre-sorpresa.jpg" alt="Secreto Dorado"><b>Secreto Dorado</b><span>Sorpresa</span></a>
+          <a href="#/emocion/desprecio" data-emocion="desprecio"><img src="img/postre-desprecio.jpg" alt="Desdén"><b>Desdén</b><span>Desprecio</span></a>
+        </div>
+
+        <h2>¿A dónde quieres ir?</h2>
+        <div class="portal">
+          <a href="#/menu" class="destino"><h3>Nuestros postres</h3><p>Conoce la historia, los ingredientes y la emoción de cada uno.</p></a>
+          <a href="#/emociones" class="destino"><h3>¿Cómo te sientes?</h3><p>Elige una emoción y descubre su postre.</p></a>
+          <a href="#/mezclador" class="destino"><h3>Mezclador de postres</h3><p>Dos postres a la vez: mezcla sus colores y sus emociones.</p></a>
+          <a href="#/ciencia" class="destino"><h3>La ciencia</h3><p>Qué pasa en el cerebro y el cuerpo cuando sentimos.</p></a>
+          <a href="#/proyecto" class="destino"><h3>El proyecto</h3><p>Qué es Sabores del Alma y quién lo hace.</p></a>
+          <a href="#/contacto" class="destino"><h3>Contacto</h3><p>Preguntas, ideas de postres o colaboraciones.</p></a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== EMOCIONES ===== -->
+    <section class="vista" data-vista="emociones" data-titulo="¿Cómo te sientes?">
+      <div class="contenedor">
+        <h1>¿Cómo te sientes?</h1>
+        <p class="intro">Elige la emoción que te acompaña y descubre el postre que la representa.</p>
+        <div class="rejilla-emociones">
+          <a href="#/emocion/alegria" class="tarjeta-emocion" data-emocion="alegria"><b>Dulce Aurora</b><span>Alegría</span></a>
+          <a href="#/emocion/tristeza" class="tarjeta-emocion" data-emocion="tristeza"><b>Luna Serena</b><span>Tristeza</span></a>
+          <a href="#/emocion/ira" class="tarjeta-emocion" data-emocion="ira"><b>Fuego Carmesí</b><span>Ira</span></a>
+          <a href="#/emocion/miedo" class="tarjeta-emocion" data-emocion="miedo"><b>Velo Nocturno</b><span>Miedo</span></a>
+          <a href="#/emocion/asco" class="tarjeta-emocion" data-emocion="asco"><b>Ámbar Velado</b><span>Asco</span></a>
+          <a href="#/emocion/sorpresa" class="tarjeta-emocion" data-emocion="sorpresa"><b>Secreto Dorado</b><span>Sorpresa</span></a>
+          <a href="#/emocion/desprecio" class="tarjeta-emocion" data-emocion="desprecio"><b>Desdén</b><span>Desprecio</span></a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== DETALLE DE UN POSTRE (lo llena el js con datos) ===== -->
+    <section class="vista" data-vista="emocion" data-titulo="Postre">
+      <div class="contenedor resultado">
+        <img class="foto-postre" id="e-img" alt="">
+        <div>
+          <p><a href="#/menu">Volver a los postres</a></p>
+          <p class="subtitulo">Postre para la emoción: <b id="e-emocion-sub"></b></p>
+          <h1 id="e-nombre"></h1>
+          <p class="historia" id="e-historia"></p>
+
+          <dl class="datos">
+            <dt>Emoción</dt><dd id="e-emocion"></dd>
+            <dt>Color</dt><dd id="e-color"></dd>
+            <dt>Sabor</dt><dd id="e-sabor"></dd>
+          </dl>
+
+          <section class="ficha">
+            <h2>Ficha del postre</h2>
+            <h3>Ingredientes</h3>
+            <div id="e-ingredientes"></div>
+            <h3>Alérgenos</h3>
+            <ul class="etiquetas" id="e-alergenos"></ul>
+            <p class="aviso">Ficha provisional. Puede haber trazas de frutos secos u otros alérgenos según las marcas que se usen; hay que confirmarlo con la receta final.</p>
+          </section>
+
+          <h2>Lo que expresa</h2>
+          <p id="e-significado"></p>
+          <h2>Una frase para ti</h2>
+          <div class="frase-caja"><p id="e-frase"></p><button type="button" class="boton boton-chico" id="otra-frase">Otra frase</button></div>
+          <h2>Para vivirla de forma saludable</h2>
+          <p id="e-regulacion"></p>
+          <p class="aviso">La relación entre colores, sabores y emociones es simbólica y cambia entre personas y culturas.</p>
+
+          <section class="compartir">
+            <h2>Comparte tu postre</h2>
+            <p>Descarga una imagen con tu postre, tu emoción, tu frase y un dibujo que cambia cada vez. Si no te gusta, pide otra.</p>
+            <div class="dedicatoria"><label for="dedicatoria">Dedícala a alguien (opcional)</label><input type="text" id="dedicatoria" maxlength="24" placeholder="Un nombre"></div>
+            <canvas id="tarjeta" width="1080" height="1350" role="img" aria-label="Vista previa de tu tarjeta"></canvas>
+            <div class="acciones">
+              <button type="button" class="boton boton-principal" id="descargar">Descargar imagen</button>
+              <button type="button" class="boton" id="otra-imagen">Otra imagen</button>
+            </div>
+          </section>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== MENÚ ===== -->
+    <section class="vista" data-vista="menu" data-titulo="Nuestros postres">
+      <div class="contenedor">
+        <h1>Nuestros postres</h1>
+        <p class="intro">Siete postres, cada uno creado para una emoción. Elige uno para conocer su historia, sus ingredientes y su frase.</p>
+        <!-- por ahora a mano, después vienen de la base de datos -->
+        <div class="rejilla-postres">
+          <a href="#/emocion/alegria" class="postre" data-emocion="alegria"><img src="img/postre-alegria.jpg" alt="Dulce Aurora"><h3>Dulce Aurora</h3><span class="pildora">Alegría</span><p>Mango y fresa</p></a>
+          <a href="#/emocion/tristeza" class="postre" data-emocion="tristeza"><img src="img/postre-tristeza.jpg" alt="Luna Serena"><h3>Luna Serena</h3><span class="pildora">Tristeza</span><p>Arándanos y crema</p></a>
+          <a href="#/emocion/ira" class="postre" data-emocion="ira"><img src="img/postre-ira.jpg" alt="Fuego Carmesí"><h3>Fuego Carmesí</h3><span class="pildora">Ira</span><p>Chocolate y frutos rojos</p></a>
+          <a href="#/emocion/miedo" class="postre" data-emocion="miedo"><img src="img/postre-miedo.jpg" alt="Velo Nocturno"><h3>Velo Nocturno</h3><span class="pildora">Miedo</span><p>Chocolate y mora</p></a>
+          <a href="#/emocion/asco" class="postre" data-emocion="asco"><img src="img/postre-asco.jpg" alt="Ámbar Velado"><h3>Ámbar Velado</h3><span class="pildora">Asco</span><p>Manzana suave</p></a>
+          <a href="#/emocion/sorpresa" class="postre" data-emocion="sorpresa"><img src="img/postre-sorpresa.jpg" alt="Secreto Dorado"><h3>Secreto Dorado</h3><span class="pildora">Sorpresa</span><p>Mango y maracuyá</p></a>
+          <a href="#/emocion/desprecio" class="postre" data-emocion="desprecio"><img src="img/postre-desprecio.jpg" alt="Desdén"><h3>Desdén</h3><span class="pildora">Desprecio</span><p>Chocolate, café y caramelo</p></a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== CIENCIA ===== -->
+    <section class="vista" data-vista="ciencia" data-titulo="La ciencia">
+      <div class="contenedor">
+        <h1>La ciencia detrás de la emoción</h1>
+        <p class="intro">Las emociones no dependen de una sola hormona ni de una sola zona del cerebro. Este es un mapa simplificado: toca, elige y prueba para descubrir cómo funciona.</p>
+
+        <div class="pestanas" role="tablist" aria-label="Temas de ciencia">
+          <button type="button" class="pestana" role="tab" data-panel="cerebro">Cerebro</button>
+          <button type="button" class="pestana" role="tab" data-panel="quimica">Química</button>
+          <button type="button" class="pestana" role="tab" data-panel="cuerpo">Cuerpo</button>
+          <button type="button" class="pestana" role="tab" data-panel="sentidos">Sentidos</button>
+          <button type="button" class="pestana" role="tab" data-panel="ekman">Ekman</button>
+          <button type="button" class="pestana" role="tab" data-panel="mitos">Mitos</button>
+          <button type="button" class="pestana" role="tab" data-panel="fuentes">Fuentes</button>
+        </div>
+
+        <!-- ===== cerebro: un esquema donde se toca cada zona ===== -->
+        <div class="panel-ciencia" id="p-cerebro" role="tabpanel">
+          <h2>Un equipo, no un solo centro</h2>
+          <p>No existe un "centro de la alegría" ni un "centro del miedo". Las emociones surgen de redes de zonas que trabajan juntas. Toca los puntos del esquema para conocerlas.</p>
+          <div class="mapa" data-mapa="cerebro">
+            <div class="mapa-figura mapa-cerebro">
+              <img src="img/cerebro.png" width="608" height="548" alt="Esquema del cerebro visto de lado, con cinco puntos que se pueden tocar">
+            </div>
+            <div class="mapa-info" aria-live="polite">
+              <h3 class="mapa-titulo">Toca un punto del cerebro</h3>
+              <p class="mapa-texto">Cada punto es una zona que participa en las emociones. Es un esquema muy simplificado, no un mapa exacto.</p>
+              <p class="mapa-relacion"></p>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===== química: se filtra por tema ===== -->
+        <div class="panel-ciencia" id="p-quimica" role="tabpanel">
+          <h2>Mensajeros químicos</h2>
+          <p>Neurotransmisores y hormonas son sustancias que el cuerpo usa para comunicar señales. Participan en las emociones, pero ninguna "es" una emoción. Elige un tema y mira cuáles participan.</p>
+          <div class="chips" role="group" aria-label="Filtrar por tema">
+            <button type="button" class="chip" aria-pressed="false" data-tema="motivacion">Motivación</button>
+            <button type="button" class="chip" aria-pressed="false" data-tema="animo">Ánimo</button>
+            <button type="button" class="chip" aria-pressed="false" data-tema="atencion">Atención</button>
+            <button type="button" class="chip" aria-pressed="false" data-tema="estres">Estrés</button>
+            <button type="button" class="chip" aria-pressed="false" data-tema="vinculos">Vínculos</button>
+            <button type="button" class="chip" aria-pressed="false" data-tema="bienestar">Bienestar</button>
+          </div>
+          <div class="rejilla-ciencia">
+            <article class="tarjeta" data-temas="motivacion"><h3>Dopamina</h3><p>Se relaciona con la motivación, el aprendizaje y la recompensa. Tiene más que ver con querer y anticipar algo que con la felicidad en sí.</p></article>
+            <article class="tarjeta" data-temas="animo"><h3>Serotonina</h3><p>Participa en la regulación del ánimo, el sueño y el apetito. Gran parte de la serotonina del cuerpo se encuentra en el intestino.</p></article>
+            <article class="tarjeta" data-temas="atencion estres"><h3>Noradrenalina</h3><p>Activa el cuerpo y aumenta la alerta y la atención frente a situaciones que lo demandan.</p></article>
+            <article class="tarjeta" data-temas="estres"><h3>Cortisol</h3><p>Hormona que ayuda al cuerpo a responder a las exigencias y al estrés. Sube y baja a lo largo del día.</p></article>
+            <article class="tarjeta" data-temas="vinculos"><h3>Oxitocina</h3><p>Se asocia con los vínculos sociales y la confianza, y también con el parto y la lactancia. Sus efectos dependen mucho del contexto.</p></article>
+            <article class="tarjeta" data-temas="bienestar"><h3>Endorfinas</h3><p>Moléculas que el cuerpo produce y que ayudan a modular el dolor y la sensación de bienestar.</p></article>
+          </div>
+        </div>
+
+        <!-- ===== cuerpo: un esquema donde se toca cada zona ===== -->
+        <div class="panel-ciencia" id="p-cuerpo" role="tabpanel">
+          <h2>Las emociones también se sienten en el cuerpo</h2>
+          <p>Cuando sentimos algo, el cuerpo responde. Percibir esas señales internas se llama interocepción. Toca una zona para ver qué suele pasar ahí. Cada persona lo siente a su manera.</p>
+          <div class="mapa" data-mapa="cuerpo">
+            <div class="mapa-figura mapa-cuerpo">
+              <svg viewBox="0 0 200 360" role="img" aria-label="Silueta del cuerpo humano">
+                <circle class="fig" cx="100" cy="42" r="28"/>
+                <path class="fig" d="M70 78 H130 C150 80 158 96 160 120 L170 200 C171 208 160 210 158 202 L148 140 L146 232 L152 340 C152 348 132 348 130 340 L108 238 H92 L70 340 C68 348 48 348 48 340 L54 232 L52 140 L42 202 C40 210 29 208 30 200 L40 120 C42 96 50 80 70 78 Z"/>
+              </svg>
+            </div>
+            <div class="mapa-info" aria-live="polite">
+              <h3 class="mapa-titulo">Toca una zona del cuerpo</h3>
+              <p class="mapa-texto">Hay estudios en los que se le pidió a muchas personas que marcaran dónde sienten cada emoción, y aparecieron zonas que se repiten.</p>
+              <p class="mapa-relacion"></p>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===== sentidos ===== -->
+        <div class="panel-ciencia" id="p-sentidos" role="tabpanel">
+          <h2>Por qué un postre puede hacernos sentir algo</h2>
+          <p>Comer mezcla varios sentidos a la vez, y algunos están muy ligados a la emoción y a la memoria.</p>
+          <div class="rejilla-ciencia">
+            <article class="tarjeta"><h3>Olfato</h3><p>Las señales del olfato llegan a zonas relacionadas con la emoción y la memoria. Por eso un aroma puede traer un recuerdo de golpe.</p></article>
+            <article class="tarjeta"><h3>Gusto</h3><p>Distinguimos cinco sabores básicos: dulce, salado, ácido, amargo y umami. En muchos estudios lo dulce se asocia con lo agradable.</p></article>
+            <article class="tarjeta"><h3>Vista</h3><p>El color y la presentación crean expectativas antes de probar. Sus significados son en gran parte culturales y simbólicos.</p></article>
+            <article class="tarjeta"><h3>Textura y temperatura</h3><p>Lo cremoso, lo crujiente o lo frío cambian la experiencia y lo que recordamos de ella.</p></article>
+          </div>
+          <p class="nota">En Sabores del Alma usamos esto como inspiración creativa: la relación entre cada color, sabor y emoción es simbólica y puede variar entre personas.</p>
+        </div>
+
+        <!-- ===== ekman: un rostro que cambia ===== -->
+        <div class="panel-ciencia" id="p-ekman" role="tabpanel">
+          <h2>Las siete emociones de Paul Ekman</h2>
+          <p>El psicólogo Paul Ekman estudió las expresiones del rostro en distintas culturas y propuso un conjunto de emociones básicas, reconocibles por señales parecidas en muchas personas. Elige una y mira cómo cambia el rostro.</p>
+          <div class="ekman">
+            <svg class="rostro" id="rostro" viewBox="0 0 200 200" role="img" aria-label="Rostro que muestra la emoción elegida"></svg>
+            <div>
+              <div class="chips" id="ekman-botones" role="group" aria-label="Elige una emoción"></div>
+              <h3 id="ekman-nombre"></h3>
+              <p id="ekman-texto"></p>
+              <p><a id="ekman-enlace" href="#/menu"></a></p>
+            </div>
+          </div>
+          <p class="nota">Las primeras seis emociones son las más conocidas de su propuesta, y el desprecio se sumó después, con más debate. Otros investigadores, como Lisa Feldman Barrett, cuestionan la idea de emociones universales, y por eso la tratamos como una base para organizar el proyecto, no como una verdad cerrada.</p>
+        </div>
+
+        <!-- ===== mitos: un pequeño juego ===== -->
+        <div class="panel-ciencia" id="p-mitos" role="tabpanel">
+          <h2>¿Mito o realidad?</h2>
+          <p>Ocho afirmaciones. Decide si cada una es un mito o una realidad y mira la explicación.</p>
+          <div class="quiz" id="quiz">
+            <p class="quiz-progreso" id="quiz-progreso"></p>
+            <p class="quiz-frase" id="quiz-frase"></p>
+            <div class="acciones" id="quiz-botones">
+              <button type="button" class="boton" id="quiz-mito">Mito</button>
+              <button type="button" class="boton" id="quiz-realidad">Realidad</button>
+            </div>
+            <p class="quiz-explica" id="quiz-explica" role="status"></p>
+            <button type="button" class="boton boton-principal" id="quiz-siguiente" hidden>Siguiente</button>
+          </div>
+        </div>
+
+        <!-- ===== fuentes ===== -->
+        <div class="panel-ciencia" id="p-fuentes" role="tabpanel">
+          <h2>Fuentes</h2>
+          <p>Estas son las referencias en las que nos apoyamos y que conviene consultar para ir más a fondo.</p>
+          <ul class="lista fuentes">
+            <li>Ekman, P., y Friesen, W. V. (1971). Constants across cultures in the face and emotion. Journal of Personality and Social Psychology, 17(2), 124-129.</li>
+            <li>Ekman, P. (1992). An argument for basic emotions. Cognition and Emotion, 6(3-4), 169-200.</li>
+            <li>Matsumoto, D., y Ekman, P. (2004). The relationship among expressions, labels, and descriptions of contempt. Journal of Personality and Social Psychology, 87(4), 529-540.</li>
+            <li>Nummenmaa, L., Glerean, E., Hari, R., y Hietanen, J. K. (2014). Bodily maps of emotions. Proceedings of the National Academy of Sciences, 111(2), 646-651.</li>
+            <li>LeDoux, J. (1996). The Emotional Brain. Simon and Schuster.</li>
+            <li>Barrett, L. F. (2017). How Emotions Are Made: The Secret Life of the Brain. Houghton Mifflin Harcourt.</li>
+            <li>Ilustración del cerebro: adaptada de una imagen de Freepik.</li>
+          </ul>
+          <!-- TODO: comprobar cada referencia antes de la defensa, y la licencia de la imagen del cerebro -->
+          <p class="aviso">Esta página es educativa y creativa, no reemplaza el consejo de profesionales de la salud.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== MEZCLADOR ===== -->
+    <section class="vista" data-vista="mezclador" data-titulo="Mezclador de postres">
+      <div class="contenedor">
+        <h1>Mezclador de postres</h1>
+        <p class="intro">A veces sentimos dos cosas a la vez. Elige dos postres y mira cómo se mezclan sus colores y las emociones que guardan.</p>
+        <div class="mezclador">
+          <label for="mez-a">Primer postre</label>
+          <select id="mez-a"></select>
+          <label for="mez-b">Segundo postre</label>
+          <select id="mez-b"></select>
+          <button type="button" class="boton boton-principal" id="mez-boton">Mezclar</button>
+          <p id="mez-aviso" role="status"></p>
+        </div>
+        <div class="mezcla" id="mez-resultado" hidden>
+          <canvas class="mezcla-lienzo" id="mez-lienzo" width="1400" height="660" role="img" aria-label="Los dibujos de las dos emociones mezclados"></canvas>
+          <div>
+            <h2 id="mez-titulo"></h2>
+            <p id="mez-descripcion"></p>
+            <h3>Para acompañarla</h3>
+            <p id="mez-postres"></p>
+            <h3>Dos frases</h3>
+            <p id="mez-frases"></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== PROYECTO ===== -->
+    <section class="vista" data-vista="proyecto" data-titulo="El proyecto">
+      <div class="contenedor">
+        <h1>Sobre Sabores del Alma</h1>
+        <p class="intro">Es nuestro proyecto final del programa Jóvenes Creativos: una página web donde cada postre representa una emoción a través de su color, su sabor y su historia.</p>
+        <p>Nació de una idea sencilla: es más fácil hablar de lo que sentimos cuando empezamos por algo que se puede ver, oler y probar.</p>
+
+        <div class="rejilla-ciencia">
+          <article class="tarjeta"><h3>Misión</h3><p>Conectar sabores y colores con el mundo emocional de las personas, uniendo creatividad, ciencia y diseño.</p></article>
+          <article class="tarjeta"><h3>Visión</h3><p>Que cada postre sea una forma de expresar lo que sentimos.</p></article>
+          <article class="tarjeta"><h3>Valores</h3><p>Empatía, creatividad, bienestar, respeto, innovación, responsabilidad, sensibilidad y educación.</p></article>
+        </div>
+
+        <h2>Cómo funciona</h2>
+        <ol class="pasos">
+          <li>Eliges un postre o cuentas cómo te sientes.</li>
+          <li>Descubres su color, su sabor y su historia.</li>
+          <li>Lees qué expresa y qué pasa en el cuerpo con esa emoción.</li>
+          <li>Te llevas una frase para compartir.</li>
+        </ol>
+
+        <h2>El equipo</h2>
+        <div class="equipo">
+          <article class="integrante">
+            <img src="img/equipo-dahiana.jpg" alt="Dahiana Vélez Vélez">
+            <h3>Dahiana Vélez Vélez</h3>
+            <p>Integrante del proyecto</p>
+          </article>
+          <article class="integrante">
+            <img src="img/equipo-valentina.jpg" alt="Valentina Bueno Largo">
+            <h3>Valentina Bueno Largo</h3>
+            <p>Integrante del proyecto</p>
+          </article>
+        </div>
+
+        <p class="aviso">Sabores del Alma es una propuesta creativa y educativa; no reemplaza el apoyo profesional.</p>
+      </div>
+    </section>
+
+    <!-- ===== CONTACTO ===== -->
+    <section class="vista" data-vista="contacto" data-titulo="Contacto">
+      <div class="contenedor">
+        <h1>Contacto</h1>
+        <p class="intro">¿Tienes una pregunta, una idea de postre o quieres colaborar? Escríbenos.</p>
+        <form id="form-contacto" class="formulario">
+          <label for="c-nombre">Nombre</label>
+          <input type="text" id="c-nombre" name="nombre" maxlength="80" required>
+          <label for="c-correo">Correo electrónico</label>
+          <input type="email" id="c-correo" name="correo" maxlength="120" required>
+          <label for="c-asunto">Asunto</label>
+          <select id="c-asunto" name="asunto" required>
+            <option value="">Elige una opción</option>
+            <option value="consulta">Tengo una pregunta</option>
+            <option value="sugerencia">Quiero sugerir un postre</option>
+            <option value="colaboracion">Quiero colaborar</option>
+            <option value="otro">Otro</option>
+          </select>
+          <label for="c-mensaje">Mensaje</label>
+          <textarea id="c-mensaje" name="mensaje" rows="5" maxlength="1000" required></textarea>
+          <button type="submit" class="boton boton-principal">Enviar mensaje</button>
+          <p id="c-respuesta" role="status"></p>
+        </form>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="pie">
+    <div class="pie-columnas">
+      <div><h2>Explorar</h2><ul><li><a href="#/menu">Postres</a></li><li><a href="#/emociones">¿Cómo te sientes?</a></li><li><a href="#/mezclador">Mezclador</a></li></ul></div>
+      <div><h2>Sabores del Alma</h2><ul><li><a href="#/proyecto">El proyecto</a></li><li><a href="#/contacto">Contacto</a></li></ul></div>
+      <div><h2>Importante</h2>
+        <p>Si lo que sientes es muy intenso o dura mucho tiempo, busca apoyo profesional.</p>
+        <!-- TODO: línea de ayuda de Colombia, verificar el número -->
+      </div>
+    </div>
+    <p>Proyecto final del programa Jóvenes Creativos &copy; 2026 · <a href="admin.html">Acceso administrador</a></p>
+  </footer>
+
+  <!-- ===== ÁNGEL, EL ASISTENTE (flotante) ===== -->
+  <div class="asistente-flotante">
+    <div class="asistente-globo" id="asistente-globo" role="status" hidden>
+      <button type="button" class="cerrar" id="globo-cerrar" aria-label="Cerrar mensaje">&times;</button>
+      <p>Hola, soy Ángel, el asistente de Sabores del Alma. ¿No sabes qué postre elegir? Cuéntame cómo te sientes.</p>
+    </div>
+
+    <section class="asistente-panel" id="asistente-panel" aria-label="Ángel, el asistente de Sabores del Alma" hidden>
+      <header>
+        <b>Ángel</b>
+        <button type="button" class="cerrar" id="panel-cerrar" aria-label="Cerrar el chat con Ángel">&times;</button>
+      </header>
+      <div class="chat-mensajes" id="chat-mensajes" role="log" aria-live="polite">
+        <p class="mensaje asistente">Hola, soy Ángel, el asistente de Sabores del Alma. ¿Cómo te sientes hoy?</p>
+      </div>
+      <form id="form-chat" class="chat-form">
+        <label for="chat-texto" class="oculto-visual">Tu mensaje</label>
+        <input type="text" id="chat-texto" maxlength="300" placeholder="Escribe cómo te sientes..." autocomplete="off" required>
+        <button type="submit" class="boton boton-principal boton-chico">Enviar</button>
+      </form>
+      <p class="aviso">Es una herramienta creativa: no es psicólogo ni da diagnósticos, y no reemplaza la ayuda profesional.</p>
+    </section>
+
+    <button type="button" class="asistente-boton" id="asistente-boton" aria-label="Abrir el chat con Ángel" aria-expanded="false" aria-controls="asistente-panel">
+      <img src="img/asistente.svg" alt="">
+    </button>
+  </div>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
