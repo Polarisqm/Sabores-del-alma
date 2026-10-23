@@ -53,94 +53,124 @@
               </ul>
             </div>
             <div>
+               <!--Parte secundaria del apartado "postres"-->
               <h2>Explora</h2>
               <ul>
                 <li><a href="#/menu">Ver todos los postres</a></li>
+                 
                 <li><a href="#/emociones">¿Cómo te sientes?</a></li>
+                 
                 <li><a href="#/mezclador">Mezclador de postres</a></li>
+                 <!--Fin-->
+               
               </ul>
             </div>
           </div>
         </li>
+         <!--Enlaces principales-->
         <li><a class="enlace-menu" href="#/ciencia">Ciencia</a></li>
         <li><a class="enlace-menu" href="#/proyecto">El proyecto</a></li>
         <li><a class="enlace-menu" href="#/contacto">Contacto</a></li>
       </ul>
     </nav>
   </header>
-
+<!--Fin del header-->
   <main id="contenido" tabindex="-1">
 
-    <!-- ===== INICIO: funciona como portal ===== -->
+    <!--Inicio de la pagina//Funciona como portal-->
     <section class="vista" data-vista="inicio" data-titulo="Inicio">
       <div class="hero">
         <div>
           <h1>Sabores del Alma</h1>
           <p class="etiqueta-oro">Postres de emociones</p>
           <p class="frase">Cada postre guarda una emoción. Encuentra el tuyo.</p>
-          <p>Siete postres, siete colores y siete historias para sentir, expresar y saborear lo que llevas dentro.</p>
+          <p>Siete postres, siete emociones y siete historias para sentir, expresar y saborear lo que llevas dentro.</p>
+           <!--Botones-->
           <div class="botones">
             <a href="#/menu" class="boton boton-principal">Ver los postres</a>
             <a href="#/emociones" class="boton">¿Cómo te sientes?</a>
           </div>
         </div>
-        <img src="img/logo.jpg" alt="Logotipo de Sabores del Alma: un postre de gelatina con fresa y arándano">
+        <img src="img/logo.jpg" alt="Logotipo de Sabores del Alma">
       </div>
-
+       <!--Postre del día-->
       <div class="contenedor">
-        <!-- el js elige un postre distinto cada día -->
-        <a href="#/menu" class="del-dia" id="del-dia">
+        <!-- el js es el encargado de elegir un postre distinto cada día -->
+        <a href="#/menu" class="del-dia" id="del-dia">  <!--Contenedor dinamico. El js pone la imagen, la frase y el postre diario-->
           <img id="dd-img" alt="">
           <div>
+             
             <span>Postre del día</span>
+             
             <b id="dd-nombre"></b>
             <i id="dd-emocion"></i>
             <em id="dd-frase"></em>
+             
             <strong class="ver-mas">Conocer este postre</strong>
+             
           </div>
+           <!--Fin-->
         </a>
-
+        <!--Seccion fija-->
         <h2>Los siete postres</h2>
         <div class="cinta">
+           
+           <!--El js lee la funcion data-emocion para filtrar cada postre-->
           <a href="#/emocion/alegria" data-emocion="alegria"><img src="img/postre-alegria.jpg" alt="Dulce Aurora"><b>Dulce Aurora</b><span>Alegría</span></a>
+           
           <a href="#/emocion/tristeza" data-emocion="tristeza"><img src="img/postre-tristeza.jpg" alt="Luna Serena"><b>Luna Serena</b><span>Tristeza</span></a>
+           
           <a href="#/emocion/ira" data-emocion="ira"><img src="img/postre-ira.jpg" alt="Fuego Carmesí"><b>Fuego Carmesí</b><span>Ira</span></a>
+           
           <a href="#/emocion/miedo" data-emocion="miedo"><img src="img/postre-miedo.jpg" alt="Velo Nocturno"><b>Velo Nocturno</b><span>Miedo</span></a>
+           
           <a href="#/emocion/asco" data-emocion="asco"><img src="img/postre-asco.jpg" alt="Ámbar Velado"><b>Ámbar Velado</b><span>Asco</span></a>
+           
           <a href="#/emocion/sorpresa" data-emocion="sorpresa"><img src="img/postre-sorpresa.jpg" alt="Secreto Dorado"><b>Secreto Dorado</b><span>Sorpresa</span></a>
+           
           <a href="#/emocion/desprecio" data-emocion="desprecio"><img src="img/postre-desprecio.jpg" alt="Desdén"><b>Desdén</b><span>Desprecio</span></a>
+           
         </div>
 
         <h2>¿A dónde quieres ir?</h2>
         <div class="portal">
           <a href="#/menu" class="destino"><h3>Nuestros postres</h3><p>Conoce la historia, los ingredientes y la emoción de cada uno.</p></a>
-          <a href="#/emociones" class="destino"><h3>¿Cómo te sientes?</h3><p>Elige una emoción y descubre su postre.</p></a>
+          <a href="#/emociones" class="destino"><h3>¿Cómo te sientes?</h3><p>Elige la emoción que estas sintiendo y descubre tu postre.</p></a>
           <a href="#/mezclador" class="destino"><h3>Mezclador de postres</h3><p>Dos postres a la vez: mezcla sus colores y sus emociones.</p></a>
           <a href="#/ciencia" class="destino"><h3>La ciencia</h3><p>Qué pasa en el cerebro y el cuerpo cuando sentimos.</p></a>
           <a href="#/proyecto" class="destino"><h3>El proyecto</h3><p>Qué es Sabores del Alma y quién lo hace.</p></a>
           <a href="#/contacto" class="destino"><h3>Contacto</h3><p>Preguntas, ideas de postres o colaboraciones.</p></a>
         </div>
       </div>
+       
     </section>
 
-    <!-- ===== EMOCIONES ===== -->
+    <!--Emociones-->
     <section class="vista" data-vista="emociones" data-titulo="¿Cómo te sientes?">
       <div class="contenedor">
         <h1>¿Cómo te sientes?</h1>
         <p class="intro">Elige la emoción que te acompaña y descubre el postre que la representa.</p>
         <div class="rejilla-emociones">
+           
           <a href="#/emocion/alegria" class="tarjeta-emocion" data-emocion="alegria"><b>Dulce Aurora</b><span>Alegría</span></a>
+           
           <a href="#/emocion/tristeza" class="tarjeta-emocion" data-emocion="tristeza"><b>Luna Serena</b><span>Tristeza</span></a>
+           
           <a href="#/emocion/ira" class="tarjeta-emocion" data-emocion="ira"><b>Fuego Carmesí</b><span>Ira</span></a>
+           
           <a href="#/emocion/miedo" class="tarjeta-emocion" data-emocion="miedo"><b>Velo Nocturno</b><span>Miedo</span></a>
+           
           <a href="#/emocion/asco" class="tarjeta-emocion" data-emocion="asco"><b>Ámbar Velado</b><span>Asco</span></a>
+           
           <a href="#/emocion/sorpresa" class="tarjeta-emocion" data-emocion="sorpresa"><b>Secreto Dorado</b><span>Sorpresa</span></a>
+           
           <a href="#/emocion/desprecio" class="tarjeta-emocion" data-emocion="desprecio"><b>Desdén</b><span>Desprecio</span></a>
+           
         </div>
       </div>
     </section>
 
-    <!-- ===== DETALLE DE UN POSTRE (lo llena el js con datos) ===== -->
+    <!--DETALLE DE UN POSTRE (lo llena el js con datos)-->
     <section class="vista" data-vista="emocion" data-titulo="Postre">
       <div class="contenedor resultado">
         <img class="foto-postre" id="e-img" alt="">
