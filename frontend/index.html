@@ -170,7 +170,7 @@
       </div>
     </section>
 
-    <!--DETALLE DE UN POSTRE (lo llena el js con datos)-->
+    <!--Detalles de los postres (el js llena esto con los datos necesarios)-->
     <section class="vista" data-vista="emocion" data-titulo="Postre">
       <div class="contenedor resultado">
         <img class="foto-postre" id="e-img" alt="">
@@ -217,41 +217,54 @@
       </div>
     </section>
 
-    <!-- ===== MENÚ ===== -->
+    <!--Menú-->
     <section class="vista" data-vista="menu" data-titulo="Nuestros postres">
       <div class="contenedor">
         <h1>Nuestros postres</h1>
         <p class="intro">Siete postres, cada uno creado para una emoción. Elige uno para conocer su historia, sus ingredientes y su frase.</p>
-        <!-- por ahora a mano, después vienen de la base de datos -->
+        <!-- por ahora a mano, después vienen de la base de datos (desde AIVEN) -->
         <div class="rejilla-postres">
           <a href="#/emocion/alegria" class="postre" data-emocion="alegria"><img src="img/postre-alegria.jpg" alt="Dulce Aurora"><h3>Dulce Aurora</h3><span class="pildora">Alegría</span><p>Mango y fresa</p></a>
+           
           <a href="#/emocion/tristeza" class="postre" data-emocion="tristeza"><img src="img/postre-tristeza.jpg" alt="Luna Serena"><h3>Luna Serena</h3><span class="pildora">Tristeza</span><p>Arándanos y crema</p></a>
+           
           <a href="#/emocion/ira" class="postre" data-emocion="ira"><img src="img/postre-ira.jpg" alt="Fuego Carmesí"><h3>Fuego Carmesí</h3><span class="pildora">Ira</span><p>Chocolate y frutos rojos</p></a>
+           
           <a href="#/emocion/miedo" class="postre" data-emocion="miedo"><img src="img/postre-miedo.jpg" alt="Velo Nocturno"><h3>Velo Nocturno</h3><span class="pildora">Miedo</span><p>Chocolate y mora</p></a>
+           
           <a href="#/emocion/asco" class="postre" data-emocion="asco"><img src="img/postre-asco.jpg" alt="Ámbar Velado"><h3>Ámbar Velado</h3><span class="pildora">Asco</span><p>Manzana suave</p></a>
+           
           <a href="#/emocion/sorpresa" class="postre" data-emocion="sorpresa"><img src="img/postre-sorpresa.jpg" alt="Secreto Dorado"><h3>Secreto Dorado</h3><span class="pildora">Sorpresa</span><p>Mango y maracuyá</p></a>
           <a href="#/emocion/desprecio" class="postre" data-emocion="desprecio"><img src="img/postre-desprecio.jpg" alt="Desdén"><h3>Desdén</h3><span class="pildora">Desprecio</span><p>Chocolate, café y caramelo</p></a>
         </div>
       </div>
     </section>
 
-    <!-- ===== CIENCIA ===== -->
+    <!--Ciencia-->
     <section class="vista" data-vista="ciencia" data-titulo="La ciencia">
       <div class="contenedor">
         <h1>La ciencia detrás de la emoción</h1>
         <p class="intro">Las emociones no dependen de una sola hormona ni de una sola zona del cerebro. Este es un mapa simplificado: toca, elige y prueba para descubrir cómo funciona.</p>
-
+       <!-- Pestañas de navegación para la sección de ciencia (cambian el panel activo) -->
         <div class="pestanas" role="tablist" aria-label="Temas de ciencia">
+           
           <button type="button" class="pestana" role="tab" data-panel="cerebro">Cerebro</button>
+           
           <button type="button" class="pestana" role="tab" data-panel="quimica">Química</button>
+           
           <button type="button" class="pestana" role="tab" data-panel="cuerpo">Cuerpo</button>
+           
           <button type="button" class="pestana" role="tab" data-panel="sentidos">Sentidos</button>
+           
           <button type="button" class="pestana" role="tab" data-panel="ekman">Ekman</button>
+           
           <button type="button" class="pestana" role="tab" data-panel="mitos">Mitos</button>
+           
           <button type="button" class="pestana" role="tab" data-panel="fuentes">Fuentes</button>
+           
         </div>
 
-        <!-- ===== cerebro: un esquema donde se toca cada zona ===== -->
+        <!--puntos del cerebro (se pueden tocar) -->
         <div class="panel-ciencia" id="p-cerebro" role="tabpanel">
           <h2>Un equipo, no un solo centro</h2>
           <p>No existe un "centro de la alegría" ni un "centro del miedo". Las emociones surgen de redes de zonas que trabajan juntas. Toca los puntos del esquema para conocerlas.</p>
@@ -267,7 +280,7 @@
           </div>
         </div>
 
-        <!-- ===== química: se filtra por tema ===== -->
+        <!--Parte química (Neurotransmisores, hormonas y tarjetas)-->
         <div class="panel-ciencia" id="p-quimica" role="tabpanel">
           <h2>Mensajeros químicos</h2>
           <p>Neurotransmisores y hormonas son sustancias que el cuerpo usa para comunicar señales. Participan en las emociones, pero ninguna "es" una emoción. Elige un tema y mira cuáles participan.</p>
@@ -279,6 +292,7 @@
             <button type="button" class="chip" aria-pressed="false" data-tema="vinculos">Vínculos</button>
             <button type="button" class="chip" aria-pressed="false" data-tema="bienestar">Bienestar</button>
           </div>
+           
           <div class="rejilla-ciencia">
             <article class="tarjeta" data-temas="motivacion"><h3>Dopamina</h3><p>Se relaciona con la motivación, el aprendizaje y la recompensa. Tiene más que ver con querer y anticipar algo que con la felicidad en sí.</p></article>
             <article class="tarjeta" data-temas="animo"><h3>Serotonina</h3><p>Participa en la regulación del ánimo, el sueño y el apetito. Gran parte de la serotonina del cuerpo se encuentra en el intestino.</p></article>
@@ -289,7 +303,7 @@
           </div>
         </div>
 
-        <!-- ===== cuerpo: un esquema donde se toca cada zona ===== -->
+       <!--Silueta del cuerpo interactiva (no se encontró una plantilla adecuada)-->
         <div class="panel-ciencia" id="p-cuerpo" role="tabpanel">
           <h2>Las emociones también se sienten en el cuerpo</h2>
           <p>Cuando sentimos algo, el cuerpo responde. Percibir esas señales internas se llama interocepción. Toca una zona para ver qué suele pasar ahí. Cada persona lo siente a su manera.</p>
@@ -308,8 +322,9 @@
           </div>
         </div>
 
-        <!-- ===== sentidos ===== -->
+        <!--sentidos-->
         <div class="panel-ciencia" id="p-sentidos" role="tabpanel">
+           
           <h2>Por qué un postre puede hacernos sentir algo</h2>
           <p>Comer mezcla varios sentidos a la vez, y algunos están muy ligados a la emoción y a la memoria.</p>
           <div class="rejilla-ciencia">
@@ -321,7 +336,7 @@
           <p class="nota">En Sabores del Alma usamos esto como inspiración creativa: la relación entre cada color, sabor y emoción es simbólica y puede variar entre personas.</p>
         </div>
 
-        <!-- ===== ekman: un rostro que cambia ===== -->
+        <!--Las siete emociones de Ekman-->
         <div class="panel-ciencia" id="p-ekman" role="tabpanel">
           <h2>Las siete emociones de Paul Ekman</h2>
           <p>El psicólogo Paul Ekman estudió las expresiones del rostro en distintas culturas y propuso un conjunto de emociones básicas, reconocibles por señales parecidas en muchas personas. Elige una y mira cómo cambia el rostro.</p>
@@ -337,23 +352,37 @@
           <p class="nota">Las primeras seis emociones son las más conocidas de su propuesta, y el desprecio se sumó después, con más debate. Otros investigadores, como Lisa Feldman Barrett, cuestionan la idea de emociones universales, y por eso la tratamos como una base para organizar el proyecto, no como una verdad cerrada.</p>
         </div>
 
-        <!-- ===== mitos: un pequeño juego ===== -->
+      <!--pqueño quiz(jueguito)-->
         <div class="panel-ciencia" id="p-mitos" role="tabpanel">
           <h2>¿Mito o realidad?</h2>
           <p>Ocho afirmaciones. Decide si cada una es un mito o una realidad y mira la explicación.</p>
+          
+          <!-- Contenedor general del quiz con su lógica interna -->
           <div class="quiz" id="quiz">
+            
+            <!-- Indicador dinámico de avance (ej. Pregunta 1 de 8) -->
             <p class="quiz-progreso" id="quiz-progreso"></p>
+            
+            <!-- Enunciado o afirmación actual que el usuario debe evaluar -->
             <p class="quiz-frase" id="quiz-frase"></p>
+            
+            <!-- Botones de respuesta interactivos (Mito / Realidad) -->
             <div class="acciones" id="quiz-botones">
               <button type="button" class="boton" id="quiz-mito">Mito</button>
               <button type="button" class="boton" id="quiz-realidad">Realidad</button>
             </div>
+            
+            <!--Area de retroalimentación accesible (anuncia explicaciones mediante aria-live) -->
             <p class="quiz-explica" id="quiz-explica" role="status"></p>
+            
+            <!--Botón de avance oculto por defecto hasta responder-->
             <button type="button" class="boton boton-principal" id="quiz-siguiente" hidden>Siguiente</button>
+          
           </div>
         </div>
-
-        <!-- ===== fuentes ===== -->
+         <!--Fin-->
+         
+        <!--Fuentes-->
         <div class="panel-ciencia" id="p-fuentes" role="tabpanel">
           <h2>Fuentes</h2>
           <p>Estas son las referencias en las que nos apoyamos y que conviene consultar para ir más a fondo.</p>
@@ -366,7 +395,7 @@
             <li>Barrett, L. F. (2017). How Emotions Are Made: The Secret Life of the Brain. Houghton Mifflin Harcourt.</li>
             <li>Ilustración del cerebro: adaptada de una imagen de Freepik.</li>
           </ul>
-          <!-- TODO: comprobar cada referencia antes de la defensa, y la licencia de la imagen del cerebro -->
+
           <p class="aviso">Esta página es educativa y creativa, no reemplaza el consejo de profesionales de la salud.</p>
         </div>
       </div>
