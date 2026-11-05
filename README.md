@@ -22,7 +22,7 @@ Página conectada a MongoDB (los postres, emociones y frases salen de la base), 
 
 ## Para arrancar todo (en este orden). Es importante arrancar primero el backend y luego la IA, ya que se buguea
 1. `backend/`: `npm install`, copiar `.env.example` como `.env` con tu `MONGODB_URI` y `JWT_SECRETO`, luego `npm run dev`.
-2. `ai/`: crear el entorno, `pip install -r requirements.txt`, copiar `.env.example` como `.env` con tu `GEMINI_API_KEY` (gratis en aistudio.google.com/apikey), luego `uvicorn app:app --reload --port 8000`.
+2. `ai/`: crear el entorno, `pip install -r requirements.txt`, copiar `.env.example` como `.env` con tu `GEMINI_API_KEY` (gratis en aistudio.google.com/apikey), luego `python -m uvicorn app:app --reload --port 8000`.
 3. `frontend/`: abrir `index.html` con Live Server (puerto 5500) o con doble clic
 
 > Este proyecto no reemplaza el apoyo psicológico o médico
