@@ -1,6 +1,8 @@
 <!DOCTYPE html>
+<!-- Documento principal: estructura accesible que JavaScript llena y muestra por secciones. -->
 <html lang="es">
 <head>
+  <!-- Define codificación, adaptación móvil, descripción y recursos visuales compartidos. -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta name="description" content="Sabores del Alma: postres que representan emociones. Elige cómo te sientes y descubre tu color, tu sabor y tu postre.">
@@ -11,11 +13,13 @@
   <script>document.documentElement.classList.add("con-js");</script>
 </head>
 <body>
+  <!-- Canvas decorativo y enlace de salto para teclado/lectores de pantalla. -->
   <canvas id="fondo" aria-hidden="true"></canvas>
   <a href="#contenido" class="saltar">Saltar al contenido</a>
 
   <div class="franja">Postres de emociones<span class="franja-extra"> · Proyecto final del programa Jóvenes Creativos · No reemplaza el apoyo psicológico ni médico</span></div>
 
+  <!-- Navegación común: los enlaces con hash cambian la vista sin recargar el documento. -->
   <header class="cabecera">
     <a href="#/" class="logo"><img src="img/icono.png" alt="" width="42" height="42"><span>Sabores del Alma</span></a>
     <button type="button" class="boton-menu" id="boton-menu" aria-expanded="false" aria-controls="menu-principal">Menú</button>
@@ -69,9 +73,11 @@
     </nav>
   </header>
 
+  <!-- Cada .vista es una pantalla; data-vista y data-titulo los consulta main.js. -->
   <main id="contenido" tabindex="-1">
 
     <!-- ===== INICIO: funciona como portal ===== -->
+    <!-- Portada y accesos rápidos a las experiencias principales. -->
     <section class="vista" data-vista="inicio" data-titulo="Inicio">
       <div class="hero">
         <div>
@@ -125,6 +131,7 @@
     </section>
 
     <!-- ===== EMOCIONES ===== -->
+    <!-- Selector visual de emociones; cada data-emocion coincide con una clave del catálogo. -->
     <section class="vista" data-vista="emociones" data-titulo="¿Cómo te sientes?">
       <div class="contenedor">
         <h1>¿Cómo te sientes?</h1>
@@ -142,6 +149,7 @@
     </section>
 
     <!-- ===== DETALLE DE UN POSTRE (lo llena el js con datos) ===== -->
+    <!-- Plantilla de detalle: los ids e-* son espacios que JavaScript completa con datos. -->
     <section class="vista" data-vista="emocion" data-titulo="Postre">
       <div class="contenedor resultado">
         <img class="foto-postre" id="e-img" alt="">
@@ -162,6 +170,7 @@
             <dt>Sabor</dt><dd id="e-sabor"></dd>
           </dl>
 
+          <!-- Ingredientes y alérgenos se insertan como elementos DOM, no como HTML remoto. -->
           <section class="ficha">
             <h2>Ficha del postre</h2>
             <h3>Ingredientes</h3>
@@ -179,6 +188,7 @@
           <p id="e-regulacion"></p>
           <p class="aviso">La relación entre colores, sabores y emociones es simbólica y cambia entre personas y culturas.</p>
 
+          <!-- Canvas para generar una tarjeta PNG personalizable desde el navegador. -->
           <section class="compartir">
             <h2>Comparte tu postre</h2>
             <p>Descarga una imagen con tu postre, tu emoción, tu frase y un dibujo que cambia cada vez. Si no te gusta, pide otra.</p>
@@ -194,6 +204,7 @@
     </section>
 
     <!-- ===== MENÚ ===== -->
+    <!-- Catálogo visual de respaldo; JavaScript puede sustituir sus datos con los del backend. -->
     <section class="vista" data-vista="menu" data-titulo="Nuestros postres">
       <div class="contenedor">
         <h1>Nuestros postres</h1>
@@ -212,6 +223,7 @@
     </section>
 
     <!-- ===== TIENDA ===== -->
+    <!-- La tienda y su aviso se rellenan desde la API con precios y disponibilidad actuales. -->
     <section class="vista" data-vista="tienda" data-titulo="Tienda">
       <div class="contenedor">
         <h1>Tienda</h1>
@@ -223,6 +235,7 @@
     </section>
 
     <!-- ===== INICIAR SESIÓN ===== -->
+    <!-- Formularios de autenticación; required y maxlength agregan validación básica del navegador. -->
     <section class="vista" data-vista="ingresar" data-titulo="Iniciar sesión">
       <div class="contenedor">
         <h1>Iniciar sesión</h1>
@@ -240,6 +253,7 @@
     </section>
 
     <!-- ===== CREAR CUENTA ===== -->
+    <!-- Registro de cliente y consentimiento explícito para almacenar datos de contacto. -->
     <section class="vista" data-vista="registro" data-titulo="Crear cuenta">
       <div class="contenedor">
         <h1>Crear cuenta</h1>
@@ -268,6 +282,7 @@
     </section>
 
     <!-- ===== MIS PEDIDOS ===== -->
+    <!-- Espacio donde se muestran solo los pedidos asociados a la sesión actual. -->
     <section class="vista" data-vista="pedidos" data-titulo="Mis pedidos">
       <div class="contenedor">
         <h1>Mis pedidos</h1>
@@ -277,6 +292,7 @@
     </section>
 
     <!-- ===== CIENCIA ===== -->
+    <!-- Módulo educativo con pestañas: cada data-panel enlaza el botón con un panel-ciencia. -->
     <section class="vista" data-vista="ciencia" data-titulo="La ciencia">
       <div class="contenedor">
         <h1>La ciencia detrás de la emoción</h1>
@@ -414,6 +430,7 @@
     </section>
 
     <!-- ===== MEZCLADOR ===== -->
+    <!-- Combina dos emociones seleccionadas y presenta dibujo, texto y frases. -->
     <section class="vista" data-vista="mezclador" data-titulo="Mezclador de postres">
       <div class="contenedor">
         <h1>Mezclador de postres</h1>
@@ -441,6 +458,7 @@
     </section>
 
     <!-- ===== PROYECTO ===== -->
+    <!-- Explica propósito, recorrido y equipo del proyecto. -->
     <section class="vista" data-vista="proyecto" data-titulo="El proyecto">
       <div class="contenedor">
         <h1>Sobre Sabores del Alma</h1>
@@ -480,6 +498,7 @@
     </section>
 
     <!-- ===== CONTACTO ===== -->
+    <!-- Formulario público que el backend limita y guarda como mensaje de contacto. -->
     <section class="vista" data-vista="contacto" data-titulo="Contacto">
       <div class="contenedor">
         <h1>Contacto</h1>
@@ -507,6 +526,7 @@
 
   </main>
 
+  <!-- Enlaces secundarios y aviso educativo/saludable que aparece en todas las vistas. -->
   <footer class="pie">
     <div class="pie-columnas">
       <div><h2>Explorar</h2><ul><li><a href="#/menu">Postres</a></li><li><a href="#/tienda">Tienda</a></li><li><a href="#/emociones">¿Cómo te sientes?</a></li><li><a href="#/mezclador">Mezclador</a></li></ul></div>
@@ -520,8 +540,10 @@
   </footer>
 
   <!-- ===== AVISO GLOBAL Y VENTANA DE COMPRA ===== -->
+  <!-- Región de estado accesible para avisos y diálogo reutilizable para confirmar una compra. -->
   <div class="aviso-global" id="aviso-global" role="status" hidden></div>
 
+  <!-- Ventana nativa de compra: campos, resumen y estado de éxito se alternan con hidden. -->
   <dialog class="dialogo" id="dialogo-compra" aria-labelledby="compra-titulo">
     <div class="dialogo-contenido" id="compra-formulario">
       <button type="button" class="cerrar" id="compra-x" aria-label="Cerrar la ventana de compra">&times;</button>
@@ -590,6 +612,7 @@
     </button>
   </div>
 
+  <!-- Cargar primero configuración, luego funciones generales y finalmente cuenta/tienda dependiente. -->
   <script src="js/config.js"></script>
   <script src="js/main.js"></script>
   <script src="js/tienda.js"></script>

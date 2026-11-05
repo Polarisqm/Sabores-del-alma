@@ -1,4 +1,4 @@
-// rutas del panel de administrador: todas piden token y rol "admin"
+// Endpoints exclusivos del panel: cada ruta exige autenticación y rol de administrador.
 const express = require("express");
 const Pedido = require("../modelos/Pedido");
 const Postre = require("../modelos/Postre");
@@ -9,9 +9,10 @@ const { verificarToken, soloAdmin } = require("../middleware/auth");
 const { texto, idValido } = require("../validar");
 
 const router = express.Router();
+// Aplica ambos controles a todas las rutas de este router, no solo a las que se recuerde proteger.
 router.use(verificarToken, soloAdmin);
 
-// si el id que llega no tiene forma de id de Mongo, ni se busca
+// Valida identificadores antes de usarlos en consultas MongoDB.
 function revisarId(req, res, next) {
   if (!idValido(req.params.id)) {
     return res.status(400).json({ error: "Identificador no válido" });
@@ -19,17 +20,20 @@ function revisarId(req, res, next) {
   next();
 }
 
-// ---------- pedidos ----------
+// ---------- Pedidos: listar los más recientes y actualizar su estado ----------
 router.get("/pedidos", envolver(async function (req, res) {
+  // Limita la respuesta a 200 para evitar devolver un historial ilimitado.
   const pedidos = await Pedido.find().sort({ creadoEn: -1 }).limit(200);
   res.json(pedidos);
 }));
 
 router.patch("/pedidos/:id/estado", revisarId, envolver(async function (req, res) {
+  // Normaliza y comprueba el estado contra la lista central del modelo.
   const estado = texto(req.body.estado, 20);
   if (!Pedido.ESTADOS.includes(estado)) {
     return res.status(400).json({ error: "Estado no válido" });
   }
+  // Devuelve el documento ya actualizado para que la interfaz muestre el nuevo estado.
   const pedido = await Pedido.findByIdAndUpdate(req.params.id, { estado }, { returnDocument: "after" });
   if (!pedido) {
     return res.status(404).json({ error: "Pedido no encontrado" });
@@ -37,13 +41,15 @@ router.patch("/pedidos/:id/estado", revisarId, envolver(async function (req, res
   res.json(pedido);
 }));
 
-// ---------- mensajes de contacto ----------
+// ---------- Mensajes: listar, marcar como leídos y borrar ----------
 router.get("/mensajes", envolver(async function (req, res) {
+  // Ordena de más reciente a más antiguo y limita el tamaño de la respuesta.
   const mensajes = await Mensaje.find().sort({ creadoEn: -1 }).limit(200);
   res.json(mensajes);
 }));
 
 router.patch("/mensajes/:id/leido", revisarId, envolver(async function (req, res) {
+  // Marca el mensaje como leído sin reemplazar los demás campos.
   const mensaje = await Mensaje.findByIdAndUpdate(req.params.id, { leido: true }, { returnDocument: "after" });
   if (!mensaje) {
     return res.status(404).json({ error: "Mensaje no encontrado" });
@@ -52,6 +58,7 @@ router.patch("/mensajes/:id/leido", revisarId, envolver(async function (req, res
 }));
 
 router.delete("/mensajes/:id", revisarId, envolver(async function (req, res) {
+  // Elimina un mensaje seleccionado y diferencia el caso de id inexistente.
   const mensaje = await Mensaje.findByIdAndDelete(req.params.id);
   if (!mensaje) {
     return res.status(404).json({ error: "Mensaje no encontrado" });
@@ -59,15 +66,18 @@ router.delete("/mensajes/:id", revisarId, envolver(async function (req, res) {
   res.json({ ok: true });
 }));
 
-// ---------- postres (aquí se cambian los precios) ----------
+// ---------- Postres: lista del panel y edición de campos permitidos ----------
 router.get("/postres", envolver(async function (req, res) {
+  // El panel también puede ver postres inactivos para volver a habilitarlos.
   const postres = await Postre.find().sort({ orden: 1 });
   res.json(postres);
 }));
 
 router.put("/postres/:id", revisarId, envolver(async function (req, res) {
+  // Construye una lista blanca de campos; no copia directamente todo req.body a MongoDB.
   const cambios = {};
 
+  // Valida rango y tipo del precio antes de guardarlo.
   if (req.body.precio !== undefined) {
     const precio = Number(req.body.precio);
     if (!Number.isFinite(precio) || precio < 0 || precio > 1000000) {
@@ -75,6 +85,7 @@ router.put("/postres/:id", revisarId, envolver(async function (req, res) {
     }
     cambios.precio = precio;
   }
+  // Convierte los indicadores en booleanos explícitos para no aceptar valores ambiguos.
   if (req.body.activo !== undefined) cambios.activo = req.body.activo === true;
   if (req.body.fichaConfirmada !== undefined) cambios.fichaConfirmada = req.body.fichaConfirmada === true;
   if (req.body.nombre !== undefined) {
@@ -84,6 +95,7 @@ router.put("/postres/:id", revisarId, envolver(async function (req, res) {
   }
   if (req.body.sabor !== undefined) cambios.sabor = texto(req.body.sabor, 120);
 
+  // Actualiza solo los campos validados y devuelve la versión resultante.
   const postre = await Postre.findByIdAndUpdate(req.params.id, cambios, { returnDocument: "after" });
   if (!postre) {
     return res.status(404).json({ error: "Postre no encontrado" });
@@ -91,7 +103,7 @@ router.put("/postres/:id", revisarId, envolver(async function (req, res) {
   res.json(postre);
 }));
 
-// ---------- usuarios registrados ----------
+// ---------- Usuarios: devuelve datos de perfil, nunca hashes de contraseña ----------
 router.get("/usuarios", envolver(async function (req, res) {
   const usuarios = await Usuario.find({}, "nombre correo telefono rol creadoEn").sort({ creadoEn: -1 }).limit(500);
   res.json(usuarios);

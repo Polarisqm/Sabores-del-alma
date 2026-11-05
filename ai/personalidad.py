@@ -1,6 +1,8 @@
 # Quién es Ángel y cómo habla. Todo lo que dice sale de aquí y de los datos de la base.
 
 def construir_sistema(contexto: str) -> str:
+    # Devuelve las instrucciones de sistema que guían tono, seguridad y límites del asistente.
+    # El contexto dinámico se agrega al final para que sus respuestas usen datos actuales del sitio.
     return f"""Eres Ángel, el asistente de la página Sabores del Alma. Hablas en español, de tú, con las personas que visitan la página.
 
 QUIÉN ERES

@@ -1,8 +1,10 @@
 -- Sabores del Alma - datos iniciales (generado a partir de la página)
 USE sabores_del_alma;
 
+-- Datos iniciales: catálogo común de alérgenos para asociarlos a las fichas de postres.
 INSERT INTO alergenos (nombre) VALUES ('Lácteos'), ('Gluten'), ('Huevo'), ('Frutos secos');
 
+-- Carga las emociones con sus claves, colores, descripciones y formas de regulación.
 INSERT INTO emociones (clave, nombre, color_hex, color_nombre, significado, regulacion) VALUES
   ('alegria', 'Alegría', '#F29B4B', 'Ámbar y rosa', 'Es una emoción agradable que aparece cuando algo nos hace sentir bien. Sirve para celebrar y compartir.', 'Compártela con alguien y date un momento para notar qué la provocó.'),
   ('tristeza', 'Tristeza', '#8A78C4', 'Violeta lavanda', 'Suele aparecer ante una pérdida o una decepción. Sentirla no es malo: nos invita a parar y cuidarnos.', 'Escribe lo que sientes o cuéntaselo a alguien de confianza. Si dura mucho, busca apoyo profesional.'),
@@ -12,6 +14,7 @@ INSERT INTO emociones (clave, nombre, color_hex, color_nombre, significado, regu
   ('sorpresa', 'Sorpresa', '#F2C14E', 'Dorado', 'Aparece de golpe ante algo inesperado. Dura poco y suele dar paso a otra emoción.', 'Date unos segundos para entender qué pasó antes de reaccionar.'),
   ('desprecio', 'Desprecio', '#A0714F', 'Café caramelo', 'Es sentir que algo o alguien está por debajo de nosotros. Conviene mirar de dónde viene ese rechazo.', 'Piensa qué lo provocó y trata de ponerte en el lugar del otro antes de juzgar.');
 
+-- Relaciona un postre inicial con cada emoción usando su clave, no un id fijo.
 INSERT INTO postres (emocion_id, nombre, sabor, historia, imagen) VALUES
   ((SELECT id FROM emociones WHERE clave = 'alegria'), 'Dulce Aurora', 'Mango y fresa', 'Dulce Aurora nace de la primera luz del día: capas de color ámbar que se funden entre sí, como cuando algo bueno apenas empieza y ya se siente.', 'postre-alegria.jpg'),
   ((SELECT id FROM emociones WHERE clave = 'tristeza'), 'Luna Serena', 'Arándanos y crema', 'Luna Serena es el postre de las noches tranquilas. Su azul suave recuerda a la luna cuando todo se calma, y su textura invita a ir despacio.', 'postre-tristeza.jpg'),
@@ -21,6 +24,7 @@ INSERT INTO postres (emocion_id, nombre, sabor, historia, imagen) VALUES
   ((SELECT id FROM emociones WHERE clave = 'sorpresa'), 'Secreto Dorado', 'Mango y maracuyá', 'Secreto Dorado guarda un destello inesperado. Es el postre del asombro: nunca sabes del todo qué vas a encontrar hasta que lo pruebas.', 'postre-sorpresa.jpg'),
   ((SELECT id FROM emociones WHERE clave = 'desprecio'), 'Desdén', 'Chocolate, café y caramelo', 'Desdén es elegante y de pocas palabras, con un color que mantiene la distancia. Nos invita a mirar de dónde viene lo que rechazamos antes de dar la espalda.', 'postre-desprecio.jpg');
 
+-- Registra ingredientes por postre y sección para mostrarlos ordenadamente.
 INSERT INTO ingredientes (postre_id, seccion, texto, orden) VALUES
   ((SELECT id FROM postres WHERE nombre = 'Dulce Aurora'), 'Capa principal', '100 ml de leche', 1),
   ((SELECT id FROM postres WHERE nombre = 'Dulce Aurora'), 'Capa principal', '100 g de pulpa de mango', 2),
@@ -94,6 +98,7 @@ INSERT INTO ingredientes (postre_id, seccion, texto, orden) VALUES
   ((SELECT id FROM postres WHERE nombre = 'Desdén'), 'Salsa tipo caramelo reducida en azúcar', '10 g de mantequilla', 9),
   ((SELECT id FROM postres WHERE nombre = 'Desdén'), 'Salsa tipo caramelo reducida en azúcar', 'Una pizca de sal, opcional', 10);
 
+-- Vincula cada postre con sus alérgenos mediante las claves legibles de ambas tablas.
 INSERT INTO postre_alergenos (postre_id, alergeno_id) VALUES
   ((SELECT id FROM postres WHERE nombre = 'Dulce Aurora'), (SELECT id FROM alergenos WHERE nombre = 'Lácteos')),
   ((SELECT id FROM postres WHERE nombre = 'Luna Serena'), (SELECT id FROM alergenos WHERE nombre = 'Lácteos')),
@@ -103,6 +108,7 @@ INSERT INTO postre_alergenos (postre_id, alergeno_id) VALUES
   ((SELECT id FROM postres WHERE nombre = 'Secreto Dorado'), (SELECT id FROM alergenos WHERE nombre = 'Lácteos')),
   ((SELECT id FROM postres WHERE nombre = 'Desdén'), (SELECT id FROM alergenos WHERE nombre = 'Lácteos'));
 
+-- Frases iniciales que acompañan las emociones en la interfaz.
 INSERT INTO frases (emocion_id, texto) VALUES
   ((SELECT id FROM emociones WHERE clave = 'alegria'), 'Hoy la vida te sabe a algo dulce.'),
   ((SELECT id FROM emociones WHERE clave = 'alegria'), 'Tu alegría también ilumina a quienes te rodean.'),

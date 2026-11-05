@@ -1,6 +1,8 @@
 <!DOCTYPE html>
+<!-- Página separada para que las herramientas administrativas no formen parte de la navegación pública. -->
 <html lang="es">
 <head>
+  <!-- Metadatos de accesibilidad y noindex para no sugerir el panel a buscadores. -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta name="robots" content="noindex">
@@ -10,6 +12,7 @@
 </head>
 <body class="pagina-admin">
 
+  <!-- Cabecera compacta con retorno a la página y cierre de sesión administrativa. -->
   <header class="cabecera">
     <a href="index.html" class="logo">
       <img src="img/icono.png" alt="" width="42" height="42">
@@ -24,6 +27,7 @@
   <main class="contenedor">
 
     <!-- ===== ENTRAR ===== -->
+    <!-- Login inicial; el JavaScript valida en la API que la cuenta tenga rol admin. -->
     <section id="admin-login">
       <h1>Administrador</h1>
       <p class="intro">Entra con la cuenta de administrador para ver los pedidos, los mensajes y cambiar los precios.</p>
@@ -38,6 +42,7 @@
     </section>
 
     <!-- ===== PANEL ===== -->
+    <!-- El panel queda oculto hasta autenticar; cada pestaña carga datos desde rutas protegidas. -->
     <section id="admin-panel" hidden>
       <h1>Panel de administrador</h1>
       <p class="intro" id="admin-saludo"></p>
@@ -77,6 +82,7 @@
 
   </main>
 
+  <!-- La configuración de API debe cargarse antes del código que consume sus direcciones. -->
   <script src="js/config.js"></script>
   <script src="js/admin.js"></script>
 </body>

@@ -1,8 +1,8 @@
-# Revisión de seguridad antes de llamar a la IA.
-# Si alguien habla de hacerse daño, Ángel no improvisa: responde siempre con este mensaje cuidado.
+# Filtro local que se ejecuta antes de llamar a Gemini.
+# Detectar una señal activa una respuesta preparada y evita que el modelo improvise en una crisis.
 import unicodedata
 
-# en minúsculas y sin tildes (ver normalizar). Mantener sincronizado con js/main.js
+# Las frases están normalizadas: minúsculas y sin tildes. Mantenerlas sincronizadas con frontend/js/main.js.
 SENALES_DE_ALERTA = [
     "quiero morir",
     "no quiero vivir",
@@ -24,6 +24,7 @@ RESPUESTA_DE_ALERTA = (
 
 
 def normalizar(texto: str) -> str:
+    # Separa letras de sus marcas diacríticas y elimina estas últimas para comparar tildes igual.
     sin_tildes = "".join(
         c for c in unicodedata.normalize("NFD", texto.lower())
         if unicodedata.category(c) != "Mn"
@@ -32,5 +33,6 @@ def normalizar(texto: str) -> str:
 
 
 def hay_señal_de_alerta(texto: str) -> bool:
+    # Comprueba si el texto normalizado contiene alguna expresión de la lista de alerta.
     limpio = normalizar(texto)
     return any(senal in limpio for senal in SENALES_DE_ALERTA)

@@ -1,19 +1,23 @@
-# Lo que Ángel sabe de la página. Los postres y las emociones se leen de la API (que lee MongoDB)
-# y se guardan un rato en memoria, para no consultar la base en cada mensaje.
+# Construye el contexto real de Ángel: combina la descripción fija del sitio con datos del backend.
+# Los datos se guardan brevemente en memoria para evitar repetir consultas a MongoDB por cada chat.
 import os
 import time
 from dataclasses import dataclass, field
 
 import httpx
 
-DURACION_CACHE = 600  # segundos
+# Diez minutos: equilibrio entre reducir consultas y reflejar cambios recientes en los datos.
+DURACION_CACHE = 600
 
+# Copia temporal de emociones y postres; empieza vacía hasta que la API responde correctamente.
 _cache = {"momento": 0.0, "datos": None}
 
 
 @dataclass
 class Contexto:
+    # Instrucciones y datos en texto que se envían a Gemini.
     texto: str
+    # Claves válidas para que la herramienta recomiende solo emociones existentes.
     claves: list = field(default_factory=list)
 
 
@@ -42,6 +46,7 @@ ni médico. La relación entre colores, sabores y emociones es simbólica y camb
 
 
 async def _pedir(ruta: str):
+    # Consulta un endpoint público del backend; el timeout evita esperar indefinidamente.
     api = os.getenv("API_URL", "http://localhost:3000/api")
     async with httpx.AsyncClient(timeout=5) as cliente:
         respuesta = await cliente.get(api + ruta)
@@ -50,9 +55,11 @@ async def _pedir(ruta: str):
 
 
 async def _datos_de_la_base():
+    # Reutiliza la caché mientras siga vigente; después vuelve a leer emociones y postres.
     ahora = time.time()
     if _cache["datos"] is not None and ahora - _cache["momento"] < DURACION_CACHE:
         return _cache["datos"]
+    # Si el backend falla, se conserva la última copia disponible en vez de tumbar el chat.
     try:
         emociones = await _pedir("/emociones")
         postres = await _pedir("/postres")
@@ -65,12 +72,14 @@ async def _datos_de_la_base():
 
 
 def _pesos(valor):
+    # Presenta precios como pesos colombianos con separador de miles legible.
     if valor is None:
         return "sin precio definido"
     return "$" + f"{int(valor):,}".replace(",", ".") + " COP"
 
 
 def _texto_de_postres(datos) -> str:
+    # Une emociones con postres y aplana ingredientes, alérgenos y frases en texto para Gemini.
     emociones = {e["clave"]: e for e in datos["emociones"]}
     bloques = []
     for p in datos["postres"]:
@@ -105,6 +114,7 @@ def _texto_de_postres(datos) -> str:
 
 
 async def obtener_contexto() -> Contexto:
+    # Devuelve contexto con datos reales, o instrucciones para que Ángel admita que no pudo consultarlos.
     datos = await _datos_de_la_base()
     if datos is None:
         texto = (

@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 
+// Esquema común para cuentas de clientes y administradores.
 const esquema = new mongoose.Schema({
   nombre: { type: String, required: true, trim: true, minlength: 2, maxlength: 80 },
   correo: { type: String, required: true, unique: true, lowercase: true, trim: true, maxlength: 120 },
@@ -12,4 +13,5 @@ const esquema = new mongoose.Schema({
   fechaAceptacion: Date
 }, { timestamps: { createdAt: "creadoEn", updatedAt: "actualizadoEn" } });
 
+// Los controladores usan este modelo para crear cuentas y validar permisos.
 module.exports = mongoose.model("Usuario", esquema);

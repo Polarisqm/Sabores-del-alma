@@ -1,6 +1,7 @@
-// Sabores del Alma - navegación y vistas
-// las emociones tienen texto provisional, hay que revisarlo y completar lo que falta
+// Controla navegación, contenido emocional, ciencia interactiva, dibujos y chat de la página.
+// En una web estática, el hash (#/ruta) actúa como dirección de cada vista sin recargar.
 
+// Datos de presentación de las siete emociones; sus claves deben coincidir con MongoDB.
 const emociones = {
   alegria: { nombre: "Alegría", color: "Ámbar y rosa", sabor: "Mango y fresa", postre: "Dulce Aurora",
     significado: "Es una emoción agradable que aparece cuando algo nos hace sentir bien. Sirve para celebrar y compartir.",
@@ -32,7 +33,7 @@ const emociones = {
     regulacion: "Piensa qué lo provocó y trata de ponerte en el lugar del otro antes de juzgar." }
 };
 
-// la historia de cada postre, así lo imaginamos
+// Relatos creativos asociados por clave; se muestran junto a la ficha del postre.
 const historias = {
   alegria: "Dulce Aurora nace de la primera luz del día: capas de color ámbar que se funden entre sí, como cuando algo bueno apenas empieza y ya se siente.",
   tristeza: "Luna Serena es el postre de las noches tranquilas. Su azul suave recuerda a la luna cuando todo se calma, y su textura invita a ir despacio.",
@@ -43,7 +44,7 @@ const historias = {
   desprecio: "Desdén es elegante y de pocas palabras, con un color que mantiene la distancia. Nos invita a mirar de dónde viene lo que rechazamos antes de dar la espalda."
 };
 
-// frases de cada emoción: cada vez que se entra a una, sale una distinta
+// Frases locales de respaldo cuando el servidor no entrega contenido actualizado.
 const frases = {
   alegria: ["Hoy la vida te sabe a algo dulce.", "Tu alegría también ilumina a quienes te rodean.", "Celebrar lo pequeño es otra forma de agradecer.", "Que no falte una razón para sonreír hoy.", "La alegría compartida sabe el doble."],
   tristeza: ["Incluso la noche más larga termina en amanecer.", "Está bien detenerse un momento a sentir.", "Lo que hoy pesa, mañana puede ser sabiduría.", "Hasta la luna descansa antes de volver a brillar.", "No tienes que explicarlo todo para que sea válido."],
@@ -54,7 +55,7 @@ const frases = {
   desprecio: ["Antes de juzgar, pregúntate de dónde viene el rechazo.", "Mirar con curiosidad abre más puertas que mirar por encima.", "Lo que desdeñas dice algo de lo que valoras.", "Cambiar la mirada también es cambiar la historia.", "Detrás de cada distancia hay una razón que entender."]
 };
 
-// fichas de los postres (provisionales: hay que confirmar con las recetas reales)
+// Recetas de respaldo agrupadas por secciones; confirmar ingredientes y alérgenos con la receta real.
 const fichas = {
   alegria: {
     "ingredientes": [
@@ -257,6 +258,7 @@ const vistas = document.querySelectorAll(".vista");
 const botonMenu = document.getElementById("boton-menu");
 const menu = document.getElementById("menu-principal");
 
+// Lee el hash, activa una sola vista, actualiza título y foco, y completa la vista del postre.
 function mostrarVista() {
   // la ruta es algo como "#/emocion/ira"
   const partes = location.hash.replace("#/", "").split("/");
@@ -285,6 +287,7 @@ function mostrarVista() {
   document.getElementById("contenido").focus({ preventScroll: true });
 }
 
+// Inserta datos de una emoción en el HTML y actualiza los elementos visuales relacionados.
 function llenarEmocion(clave) {
   const e = emociones[clave];
   document.body.dataset.emocion = clave;
@@ -306,6 +309,7 @@ function llenarEmocion(clave) {
   dibujarTarjeta(clave);
 }
 
+// Cierra el menú móvil y cualquier submenú, sincronizando el estado accesible aria-expanded.
 function cerrarMenus() {
   menu.classList.remove("abierto");
   botonMenu.setAttribute("aria-expanded", "false");
@@ -316,12 +320,14 @@ function cerrarMenus() {
 }
 
 botonMenu.addEventListener("click", function () {
+  // El mismo botón alterna el menú y anuncia el estado a lectores de pantalla.
   const abierto = menu.classList.toggle("abierto");
   botonMenu.setAttribute("aria-expanded", abierto);
 });
 
 document.querySelectorAll(".con-panel > button").forEach(function (boton) {
   boton.addEventListener("click", function () {
+    // Solo mantiene abierto un submenú a la vez.
     const li = boton.parentElement;
     const estabaAbierto = li.classList.contains("abierto");
     cerrarPaneles();
@@ -330,6 +336,7 @@ document.querySelectorAll(".con-panel > button").forEach(function (boton) {
   });
 });
 
+// Oculta los submenús desplegables y restablece su estado accesible.
 function cerrarPaneles() {
   document.querySelectorAll(".con-panel").forEach(function (p) {
     p.classList.remove("abierto");
@@ -347,6 +354,7 @@ document.addEventListener("keydown", function (ev) {
 
 // ---- ficha del postre ----
 function agregarItems(lista, textos) {
+  // Reconstruye una lista como texto seguro, sin insertar HTML proveniente de datos.
   lista.innerHTML = "";
   textos.forEach(function (texto) {
     const li = document.createElement("li");
@@ -356,6 +364,7 @@ function agregarItems(lista, textos) {
 }
 
 function llenarFicha(clave) {
+  // Dibuja cada sección de ingredientes y trata null como ficha de alérgenos sin confirmar.
   const f = fichas[clave];
   // los ingredientes vienen por secciones: capa, cobertura, salsa...
   const contenedor = document.getElementById("e-ingredientes");
@@ -377,6 +386,7 @@ const canvas = document.getElementById("tarjeta");
 let ctx = canvas.getContext("2d");
 let claveActual = null;
 
+// Divide una frase en renglones según el ancho real medido en el canvas.
 function partirTexto(texto, anchoMax) {
   const palabras = texto.split(" ");
   const lineas = [];
@@ -394,6 +404,7 @@ function partirTexto(texto, anchoMax) {
   return lineas;
 }
 
+// Añade al canvas el contorno de un rectángulo redondeado para reutilizarlo como ruta de dibujo.
 function rectRedondeado(x, y, ancho, alto, radio) {
   ctx.beginPath();
   ctx.moveTo(x + radio, y);
@@ -404,10 +415,12 @@ function rectRedondeado(x, y, ancho, alto, radio) {
   ctx.closePath();
 }
 
+// Lee variables CSS calculadas para que los dibujos usen la paleta activa del sitio.
 function leerColor(nombre) {
   return getComputedStyle(document.body).getPropertyValue(nombre).trim();
 }
 
+// Pinta en canvas la tarjeta descargable con postre, emoción, frase y dedicatoria.
 function dibujarTarjeta(clave) {
   const e = emociones[clave];
   const acento = leerColor("--acento");
@@ -474,6 +487,7 @@ function dibujarTarjeta(clave) {
 }
 
 document.getElementById("descargar").addEventListener("click", function () {
+  // Convierte el canvas en PNG y dispara la descarga desde un enlace temporal.
   const enlace = document.createElement("a");
   enlace.download = "sabores-del-alma-" + claveActual + ".png";
   enlace.href = canvas.toDataURL("image/png");
@@ -482,6 +496,7 @@ document.getElementById("descargar").addEventListener("click", function () {
 
 // cuando carguen las tipografías, la tarjeta se vuelve a dibujar
 document.fonts.ready.then(function () {
+  // Redibuja una vez listas las fuentes para evitar diferencias en el texto exportado.
   if (claveActual) dibujarTarjeta(claveActual);
 });
 
@@ -490,6 +505,7 @@ let fraseActual = "";
 const ultimaFrase = {};
 
 function elegirFrase(clave) {
+  // Elige una frase distinta a la anterior para esa emoción cuando hay varias disponibles.
   const lista = frases[clave];
   let nueva;
   // busco una distinta a la que salió la última vez en esta emoción
@@ -501,21 +517,25 @@ function elegirFrase(clave) {
 }
 
 function ponerFrase(clave) {
+  // Actualiza el texto visible y guarda la frase que usará la tarjeta descargable.
   fraseActual = elegirFrase(clave);
   document.getElementById("e-frase").textContent = fraseActual;
 }
 
 document.getElementById("otra-frase").addEventListener("click", function () {
+  // Cambia la frase y vuelve a pintar la tarjeta para que ambas vistas coincidan.
   ponerFrase(claveActual);
   dibujarTarjeta(claveActual);
 });
 
 document.getElementById("dedicatoria").addEventListener("input", function () {
+  // Mantiene la vista previa sincronizada mientras se escribe una dedicatoria.
   if (claveActual) dibujarTarjeta(claveActual);
 });
 
 // ---- postre del día: cambia solo cada día ----
 function postreDelDia() {
+  // Usa el número del día para elegir el mismo postre durante todo el día sin guardar estado.
   const claves = Object.keys(emociones);
   const dia = Math.floor(Date.now() / 86400000);
   const clave = claves[dia % claves.length];
@@ -534,6 +554,7 @@ postreDelDia();
 // ---- pestañas de la ciencia ----
 const pestanas = document.querySelectorAll(".pestana");
 
+// Activa una pestaña de ciencia y oculta los paneles que no corresponden.
 function mostrarPestana(nombre) {
   pestanas.forEach(function (p) {
     const activa = p.dataset.panel === nombre;
@@ -552,14 +573,14 @@ pestanas.forEach(function (p) {
 });
 mostrarPestana("cerebro");
 
-// ---- mezclador de emociones ----
-// una palabra por emoción para inventar el nombre de la mezcla
+// ---- mezclador de emociones: combina textos, frases e ilustraciones de dos selecciones ----
+// Una palabra breve por emoción para crear el título de la combinación.
 const palabras = { alegria: "Luz", tristeza: "Niebla", ira: "Brasa", miedo: "Sombra", asco: "Humo", sorpresa: "Destello", desprecio: "Hielo" };
 const selA = document.getElementById("mez-a");
 const selB = document.getElementById("mez-b");
 const avisoMezcla = document.getElementById("mez-aviso");
 
-// lleno los dos selects con las emociones (se vuelve a llenar cuando llegan los datos de la base)
+// Llena ambos selectores desde el catálogo actual, que puede actualizarse desde el backend.
 function llenarMezclador() {
   selA.innerHTML = "";
   selB.innerHTML = "";
@@ -576,11 +597,13 @@ function llenarMezclador() {
 llenarMezclador();
 
 function fraseAlAzar(clave) {
+  // Elige una frase local para cada emoción que participa en la mezcla.
   const lista = frases[clave];
   return lista[Math.floor(Math.random() * lista.length)];
 }
 
 function mezclar() {
+  // Rechaza duplicados; si son distintas, pinta el lienzo y actualiza el texto del resultado.
   const a = selA.value;
   const b = selB.value;
   const resultado = document.getElementById("mez-resultado");
@@ -606,12 +629,13 @@ function mezclar() {
 
 document.getElementById("mez-boton").addEventListener("click", mezclar);
 
-// ---- fondo animado: polvo dorado que sube despacio ----
+// ---- fondo animado: partículas doradas dibujadas en un canvas detrás del contenido ----
 const lienzoFondo = document.getElementById("fondo");
 const cf = lienzoFondo.getContext("2d");
 let particulas = [];
 
 function crearParticula(enCualquierLado) {
+  // Genera posición, radio, velocidad y fase aleatoria de una partícula decorativa.
   return {
     x: Math.random() * lienzoFondo.width,
     y: enCualquierLado ? Math.random() * lienzoFondo.height : lienzoFondo.height + 10,
@@ -622,6 +646,7 @@ function crearParticula(enCualquierLado) {
 }
 
 function iniciarFondo() {
+  // Adapta el canvas a la ventana y reinicia una cantidad limitada de partículas.
   lienzoFondo.width = window.innerWidth;
   lienzoFondo.height = window.innerHeight;
   const cantidad = Math.min(70, Math.floor(window.innerWidth / 18));
@@ -630,6 +655,7 @@ function iniciarFondo() {
 }
 
 function dibujarFondo(t) {
+  // Mueve y dibuja cada partícula, reutilizándola cuando sale del borde superior.
   cf.clearRect(0, 0, lienzoFondo.width, lienzoFondo.height);
   particulas.forEach(function (p) {
     p.y -= p.v;
@@ -649,6 +675,7 @@ function dibujarFondo(t) {
 }
 
 function animarFondo(t) {
+  // Dibuja el siguiente cuadro usando el reloj de requestAnimationFrame.
   dibujarFondo(t);
   requestAnimationFrame(animarFondo);
 }
@@ -659,13 +686,14 @@ window.addEventListener("resize", iniciarFondo);
 if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) dibujarFondo(0);
 else requestAnimationFrame(animarFondo);
 
-// ---- Ángel, el asistente flotante ----
+// ---- Ángel: abre o cierra el panel flotante del chat ----
 const botonAsistente = document.getElementById("asistente-boton");
 const panelAsistente = document.getElementById("asistente-panel");
 const globoAsistente = document.getElementById("asistente-globo");
 const chat = document.getElementById("chat-mensajes");
 
 function abrirAsistente() {
+  // Muestra el chat y mueve el foco al campo para empezar a escribir.
   panelAsistente.hidden = false;
   globoAsistente.hidden = true;
   botonAsistente.setAttribute("aria-expanded", "true");
@@ -673,6 +701,7 @@ function abrirAsistente() {
 }
 
 function cerrarAsistente() {
+  // Oculta el chat y devuelve el botón al estado de cerrado.
   panelAsistente.hidden = true;
   botonAsistente.setAttribute("aria-expanded", "false");
 }
@@ -682,6 +711,7 @@ botonAsistente.addEventListener("click", function () {
 });
 document.getElementById("panel-cerrar").addEventListener("click", cerrarAsistente);
 document.getElementById("globo-cerrar").addEventListener("click", function () {
+  // Permite descartar el globo de bienvenida sin abrir el chat.
   globoAsistente.hidden = true;
 });
 
@@ -708,19 +738,22 @@ const palabrasClave = {
 const senalesAlerta = ["quiero morir", "no quiero vivir", "suicid", "hacerme dano", "matarme", "acabar con todo", "quitar la vida", "quitarme la vida", "autolesion"];
 const MENSAJE_ALERTA = "Siento que estés pasando por algo tan difícil. No tienes que cargarlo solo: habla ya con alguien de confianza que esté cerca de ti o con un profesional. Si estás en peligro, llama ahora al 123 (Colombia) o ve al servicio de urgencias más cercano.";
 
-// lo que se han dicho Ángel y la persona, para que la conversación tenga memoria
+// Historial temporal del chat, enviado al servidor para conservar el contexto conversacional.
 const historialChat = [];
 
+// Normaliza acentos y mayúsculas para que la búsqueda local encuentre variantes del mismo término.
 function limpiarTexto(texto) {
   return texto.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
 }
 
 function hayAlerta(texto) {
+  // Busca señales sensibles localmente antes de llamar a cualquier modelo de IA.
   const limpio = limpiarTexto(texto);
   return senalesAlerta.some(function (senal) { return limpio.includes(senal); });
 }
 
 function agregarMensaje(texto, clase, claveEnlace) {
+  // Construye mensajes con textContent para no interpretar como HTML texto del usuario o de la IA.
   const p = document.createElement("p");
   p.className = "mensaje " + clase;
   p.textContent = texto;
@@ -735,7 +768,7 @@ function agregarMensaje(texto, clase, claveEnlace) {
   return p;
 }
 
-// la búsqueda de siempre, para cuando la IA no está disponible
+// Respuesta local de respaldo: busca palabras relacionadas con una emoción cuando Ángel falla.
 function respuestaLocal(mensaje) {
   const texto = limpiarTexto(mensaje);
   let ganadora = null;
@@ -752,6 +785,7 @@ function respuestaLocal(mensaje) {
 }
 
 async function pedirRespuestaIA(mensaje, previo) {
+  // Envía el mensaje y el historial permitido a la API FastAPI de la carpeta ai/.
   const respuesta = await fetch(IA_URL + "/asistente", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -764,6 +798,7 @@ async function pedirRespuestaIA(mensaje, previo) {
 }
 
 async function responderAsistente(mensaje) {
+  // Prioriza seguridad, muestra el indicador de espera y utiliza respuestas locales si falla la API.
   // primero la revisión de seguridad, aquí mismo, aunque la IA esté apagada
   if (hayAlerta(mensaje)) {
     agregarMensaje(MENSAJE_ALERTA, "asistente");
@@ -787,6 +822,7 @@ async function responderAsistente(mensaje) {
 }
 
 document.getElementById("form-chat").addEventListener("submit", function (evento) {
+  // Intercepta el formulario para enviar el mensaje sin recargar la página.
   evento.preventDefault();
   const campo = document.getElementById("chat-texto");
   const mensaje = campo.value.trim();
@@ -796,7 +832,7 @@ document.getElementById("form-chat").addEventListener("submit", function (evento
   responderAsistente(mensaje);
 });
 
-// ---- arte para la tarjeta ----
+// ---- arte para compartir y mezclar: dibujos generados en canvas, no imágenes externas ----
 // En vez de bajar fotos de internet, cada dibujo se hace con código: así nunca se repite,
 // va con la emoción y se puede descargar sin problemas.
 const ARTE = { x: 190, y: 320, w: 700, h: 330 };
@@ -804,8 +840,7 @@ let semillaArte = 1;
 let modoArte = 0;
 const ultimoModo = {};
 
-// generador de números "al azar" que repite la misma serie con la misma semilla,
-// así el dibujo no cambia cuando se escribe una dedicatoria
+// Generador pseudoaleatorio reproducible: la misma semilla mantiene el dibujo al editar la dedicatoria.
 function crearAzar(semilla) {
   let a = semilla;
   return function () {
@@ -817,11 +852,13 @@ function crearAzar(semilla) {
 }
 
 function rgba(hex, alfa) {
+  // Convierte un color hexadecimal en rgba para controlar su transparencia en canvas.
   const n = parseInt(hex.replace("#", ""), 16);
   return "rgba(" + (n >> 16) + ", " + ((n >> 8) & 255) + ", " + (n & 255) + ", " + alfa + ")";
 }
 
 function linea(x1, y1, x2, y2, grosor, color) {
+  // Dibuja una línea usando el contexto canvas que esté activo.
   ctx.strokeStyle = color;
   ctx.lineWidth = grosor;
   ctx.lineCap = "round";
@@ -832,13 +869,14 @@ function linea(x1, y1, x2, y2, grosor, color) {
 }
 
 function punto(x, y, radio, color) {
+  // Dibuja un círculo relleno como pieza básica de las ilustraciones.
   ctx.fillStyle = color;
   ctx.beginPath();
   ctx.arc(x, y, radio, 0, Math.PI * 2);
   ctx.fill();
 }
 
-// destello de cuatro puntas
+// Dibuja una estrella de ocho vértices alternando puntas largas y cortas.
 function estrella(x, y, radio, color) {
   ctx.fillStyle = color;
   ctx.beginPath();
@@ -851,7 +889,7 @@ function estrella(x, y, radio, color) {
   ctx.fill();
 }
 
-// cada emoción tiene dos dibujos distintos (modo 0 y modo 1)
+// Cada emoción tiene composiciones base; las funciones reciben azar, color y modo de dibujo.
 const pintores = {
   alegria: function (az, color, modo) {
     const cx = ARTE.x + ARTE.w / 2;
@@ -1089,7 +1127,7 @@ const pintores = {
   }
 };
 
-// tres dibujos más por emoción (modos 2, 3 y 4)
+// Tres composiciones adicionales por emoción, usadas para que las tarjetas varíen.
 const extras = {
   alegria: [
     function (az, color) {
@@ -1455,13 +1493,14 @@ const extras = {
   ]
 };
 
-// los modos 0 y 1 están en "pintores", los modos 2 a 4 en "extras"
+// Dirige el modo 0-1 al pintor base y los modos 2-4 a las composiciones extra.
 function llamarPintor(clave, az, color, modo) {
   if (modo < 2) pintores[clave](az, color, modo);
   else extras[clave][modo - 2](az, color);
 }
 
 function dibujarArte(clave, acento, oro) {
+  // Recorta el dibujo al marco, aplica un degradado y termina con un borde dorado.
   const az = crearAzar(semillaArte);
   ctx.save();
   rectRedondeado(ARTE.x, ARTE.y, ARTE.w, ARTE.h, 36);
@@ -1480,11 +1519,11 @@ function dibujarArte(clave, acento, oro) {
   ctx.stroke();
 }
 
-// una nueva semilla y un estilo distinto: reparto los cinco como una baraja,
-// así no se repite ninguno hasta haber visto todos
+// La bolsa de modos evita repetir una composición hasta recorrer los cinco estilos de esa emoción.
 const bolsaArte = {};
 
 function nuevoArte(clave) {
+  // Genera semilla nueva y baraja modos sin repetir inmediatamente la última composición.
   semillaArte = Math.floor(Math.random() * 1000000000);
   if (!bolsaArte[clave] || bolsaArte[clave].length === 0) {
     const modos = [0, 1, 2, 3, 4].filter(function (m) { return m !== ultimoModo[clave]; });
@@ -1501,13 +1540,14 @@ function nuevoArte(clave) {
 }
 
 document.getElementById("otra-imagen").addEventListener("click", function () {
+  // Cambia semilla y estilo, y actualiza la vista previa.
   nuevoArte(claveActual);
   dibujarTarjeta(claveActual);
 });
 
-// ---- mezcla de dos dibujos (mezclador) ----
-// los dibujos de arte usan la variable ctx, así que la cambio un momento para pintar en otro lienzo
+// ---- mezcla de dibujos: los pintores se reutilizan en lienzos temporales ----
 function conLienzo(lienzo, accion) {
+  // Sustituye el contexto global solo durante la acción y lo restaura incluso si hay un error.
   const anterior = ctx;
   ctx = lienzo.getContext("2d");
   try {
@@ -1518,6 +1558,7 @@ function conLienzo(lienzo, accion) {
 }
 
 function pintarArteEn(lienzo, clave, semilla, modo) {
+  // Renderiza una emoción en un canvas auxiliar con escala, color y recorte propios.
   conLienzo(lienzo, function () {
     ctx.save();
     ctx.scale(2, 2);
@@ -1538,6 +1579,7 @@ function pintarArteEn(lienzo, clave, semilla, modo) {
 }
 
 function pintarMezcla(a, b) {
+  // Combina dos ilustraciones mediante capas, una máscara gradual y destellos de ambos colores.
   const lienzo = document.getElementById("mez-lienzo");
   const ancho = lienzo.width;
   const alto = lienzo.height;
@@ -1588,7 +1630,7 @@ function pintarMezcla(a, b) {
   });
 }
 
-// ---- ciencia: esquemas donde se toca cada zona ----
+// ---- ciencia: coordenadas y explicaciones para los mapas interactivos ----
 const puntosMapa = {
   cerebro: [
     { nombre: "Corteza prefrontal", x: 12.2, y: 34.5, emociones: [],
@@ -1618,6 +1660,7 @@ const puntosMapa = {
 };
 
 function armarMapa(contenedor) {
+  // Crea puntos accesibles sobre la ilustración y muestra la explicación de cada zona.
   const puntos = puntosMapa[contenedor.dataset.mapa];
   const figura = contenedor.querySelector(".mapa-figura");
   const titulo = contenedor.querySelector(".mapa-titulo");
@@ -1654,10 +1697,11 @@ function armarMapa(contenedor) {
 }
 document.querySelectorAll(".mapa").forEach(armarMapa);
 
-// ---- ciencia: filtro de los mensajeros químicos ----
+// ---- ciencia: permite destacar tarjetas por tema químico sin ocultar el contenido ----
 const chipsQuimica = document.querySelectorAll("#p-quimica .chip");
 chipsQuimica.forEach(function (chip) {
   chip.addEventListener("click", function () {
+    // Un filtro activo resalta coincidencias; volver a pulsarlo restaura todas las tarjetas.
     const estabaActivo = chip.getAttribute("aria-pressed") === "true";
     chipsQuimica.forEach(function (otro) { otro.setAttribute("aria-pressed", "false"); });
     if (!estabaActivo) chip.setAttribute("aria-pressed", "true");
@@ -1671,7 +1715,7 @@ chipsQuimica.forEach(function (chip) {
   });
 });
 
-// ---- ciencia: el rostro de Ekman ----
+// ---- ciencia: datos SVG que dibujan expresiones faciales asociadas a cada emoción ----
 const rostros = {
   alegria: { ojo: 7, cejaI: "M56 74 Q72 66 88 74", cejaD: "M112 74 Q128 66 144 74",
     boca: '<path d="M60 124 Q100 172 140 124"/>', extra: '<path d="M44 88 L36 84 M44 96 L36 98 M156 88 L164 84 M156 96 L164 98"/>',
@@ -1699,6 +1743,7 @@ const rostros = {
 const rostro = document.getElementById("rostro");
 const botonesEkman = document.getElementById("ekman-botones");
 
+// Actualiza los rasgos del rostro y la descripción para la emoción elegida.
 function mostrarRostro(clave) {
   const r = rostros[clave];
   rostro.style.setProperty("--acento", leerColor("--c-" + clave));
@@ -1726,7 +1771,7 @@ Object.keys(rostros).forEach(function (clave) {
 });
 mostrarRostro("alegria");
 
-// ---- ciencia: ¿mito o realidad? ----
+// ---- ciencia: banco de preguntas y explicaciones del juego de mitos ----
 const afirmaciones = [
   { texto: "Existe una única «hormona de la felicidad».", esMito: true,
     explica: "Varias sustancias participan en lo que sentimos y ninguna lo explica por sí sola." },
@@ -1755,6 +1800,7 @@ const quizBotones = document.getElementById("quiz-botones");
 const quizSiguiente = document.getElementById("quiz-siguiente");
 
 function mostrarPregunta() {
+  // Presenta la afirmación actual, limpia la explicación previa y habilita las respuestas.
   const a = afirmaciones[preguntaActual];
   quizProgreso.textContent = "Afirmación " + (preguntaActual + 1) + " de " + afirmaciones.length;
   quizFrase.textContent = a.texto;
@@ -1764,6 +1810,7 @@ function mostrarPregunta() {
 }
 
 function responderQuiz(dijoMito) {
+  // Compara la respuesta con el banco, acumula aciertos y prepara el avance.
   const a = afirmaciones[preguntaActual];
   const acerto = dijoMito === a.esMito;
   if (acerto) aciertos++;
@@ -1776,6 +1823,7 @@ function responderQuiz(dijoMito) {
 document.getElementById("quiz-mito").addEventListener("click", function () { responderQuiz(true); });
 document.getElementById("quiz-realidad").addEventListener("click", function () { responderQuiz(false); });
 quizSiguiente.addEventListener("click", function () {
+  // Avanza, muestra el resultado final o reinicia el juego cuando termina.
   if (quizSiguiente.textContent === "Jugar de nuevo") {
     preguntaActual = 0;
     aciertos = 0;
@@ -1794,7 +1842,7 @@ quizSiguiente.addEventListener("click", function () {
 });
 mostrarPregunta();
 
-// con las flechas del teclado se pasa de una pestaña a otra
+// Mejora el teclado: las flechas cambian la pestaña activa sin requerir el ratón.
 document.querySelector(".pestanas").addEventListener("keydown", function (ev) {
   if (ev.key !== "ArrowRight" && ev.key !== "ArrowLeft") return;
   const lista = Array.from(pestanas);
@@ -1804,12 +1852,14 @@ document.querySelector(".pestanas").addEventListener("keydown", function (ev) {
   siguiente.focus();
 });
 
+// Reacciona a cada cambio de hash y sincroniza la vista con la dirección de la página.
 window.addEventListener("hashchange", mostrarVista);
 mostrarVista();
 
-// ---- datos reales: la página se llena con lo que hay en la base de datos ----
-// Lo que está arriba en este archivo es el respaldo: si el servidor no responde, la página sigue funcionando.
+// ---- datos remotos: reemplazan el catálogo local cuando el backend está disponible ----
+// Los objetos declarados arriba son respaldo para que la experiencia básica siga funcionando sin API.
 function agruparIngredientes(lista) {
+  // Convierte los ingredientes planos de MongoDB en grupos por sección para la ficha HTML.
   const grupos = [];
   lista.forEach(function (ingrediente) {
     let grupo = grupos.find(function (g) { return g.seccion === ingrediente.seccion; });
@@ -1823,6 +1873,7 @@ function agruparIngredientes(lista) {
 }
 
 async function cargarDesdeServidor() {
+  // Descarga emociones y postres en paralelo, valida la respuesta y sincroniza los componentes.
   let listaEmociones;
   let listaPostres;
   try {
@@ -1838,6 +1889,7 @@ async function cargarDesdeServidor() {
   }
   if (!Array.isArray(listaEmociones) || !Array.isArray(listaPostres)) return;
 
+  // Empareja cada emoción con su postre usando la clave compartida.
   listaEmociones.forEach(function (e) {
     const p = listaPostres.find(function (x) { return x.clave === e.clave; });
     if (!p) return;
@@ -1858,7 +1910,7 @@ async function cargarDesdeServidor() {
     };
   });
 
-  // lo que depende de los nombres: postre del día, mezclador y la vista que la persona está viendo
+  // Actualiza componentes derivados del catálogo y refresca el detalle que esté abierto.
   postreDelDia();
   llenarMezclador();
   const vistaActual = document.querySelector(".vista.activa");

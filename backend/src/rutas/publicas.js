@@ -1,4 +1,4 @@
-// rutas que puede usar cualquier visitante de la página
+// Endpoints públicos para contenido y formulario de contacto; no requieren iniciar sesión.
 const express = require("express");
 const rateLimit = require("express-rate-limit");
 const Emocion = require("../modelos/Emocion");
@@ -10,7 +10,7 @@ const { texto, correoValido } = require("../validar");
 
 const router = express.Router();
 
-// máximo 5 mensajes por hora desde la misma conexión, para evitar spam
+// Limita el formulario para reducir spam automatizado.
 const limiteContacto = rateLimit({
   windowMs: 60 * 60 * 1000,
   limit: 5,
@@ -19,7 +19,7 @@ const limiteContacto = rateLimit({
   message: { error: "Has enviado varios mensajes, intenta de nuevo más tarde." }
 });
 
-// lo que se le muestra al público de un postre (nunca se manda de más)
+// Lista blanca de campos del postre: evita exponer datos internos de MongoDB.
 function postrePublico(postre) {
   return {
     clave: postre.clave,
@@ -41,10 +41,11 @@ function postrePublico(postre) {
   };
 }
 
-// cada emoción llega con sus frases, para que la página las tome de la base de datos
+// Devuelve emociones ordenadas y agrupa sus frases en una sola respuesta para el frontend.
 router.get("/emociones", envolver(async function (req, res) {
   const emociones = await Emocion.find().sort({ orden: 1 }).lean();
   const frases = await Frase.find().lean();
+  // Indexa las frases por clave para evitar consultar emoción por emoción.
   const porEmocion = {};
   frases.forEach(function (f) {
     (porEmocion[f.emocion] = porEmocion[f.emocion] || []).push(f.texto);
@@ -52,27 +53,29 @@ router.get("/emociones", envolver(async function (req, res) {
   res.json(emociones.map(function (e) { return { ...e, frases: porEmocion[e.clave] || [] }; }));
 }));
 
-// la lista del menú y de la tienda
+// Menú público: solo incluye postres activos y carga la emoción relacionada.
 router.get("/postres", envolver(async function (req, res) {
   const postres = await Postre.find({ activo: true }).sort({ orden: 1 }).populate("emocion");
   res.json(postres.map(postrePublico));
 }));
 
-// un postre completo, buscándolo por la clave de su emoción (por ejemplo "alegria")
+// Detalle de un postre seleccionado por la clave de emoción; también elige una frase aleatoria.
 router.get("/postres/:clave", envolver(async function (req, res) {
   const postre = await Postre.findOne({ clave: texto(req.params.clave, 30), activo: true }).populate("emocion");
   if (!postre) {
     return res.status(404).json({ error: "Postre no encontrado" });
   }
+  // Obtiene frases vinculadas a la misma emoción y selecciona una sin ordenar toda la colección.
   const frases = await Frase.find({ emocion: postre.clave }).lean();
   const frase = frases.length > 0 ? frases[Math.floor(Math.random() * frases.length)] : null;
   res.json({ ...postrePublico(postre), frase: frase ? { id: frase._id, texto: frase.texto } : null });
 }));
 
-// otra frase de la misma emoción, distinta a la que ya se está viendo (?excluir=id)
+// Devuelve otra frase de la emoción, excluyendo opcionalmente la que ya se muestra en pantalla.
 router.get("/emociones/:clave/frase", envolver(async function (req, res) {
   const excluir = texto(req.query.excluir, 40);
   const frases = await Frase.find({ emocion: texto(req.params.clave, 30) }).lean();
+  // Compara como texto porque el id de MongoDB y el parámetro HTTP tienen tipos distintos.
   const otras = frases.filter(function (f) { return String(f._id) !== excluir; });
   if (otras.length === 0) {
     return res.status(404).json({ error: "No hay frases para esa emoción" });
@@ -81,13 +84,14 @@ router.get("/emociones/:clave/frase", envolver(async function (req, res) {
   res.json({ id: frase._id, texto: frase.texto });
 }));
 
-// formulario de contacto
+// Valida y guarda mensajes públicos recibidos desde el formulario de contacto.
 router.post("/contacto", limiteContacto, envolver(async function (req, res) {
   const nombre = texto(req.body.nombre, 80);
   const correo = texto(req.body.correo, 120);
   const asunto = texto(req.body.asunto, 20);
   const mensaje = texto(req.body.mensaje, 1000);
 
+  // Rechaza campos incompletos o fuera del catálogo antes de crear el documento.
   if (nombre.length < 2) {
     return res.status(400).json({ error: "Escribe tu nombre (mínimo 2 caracteres)" });
   }

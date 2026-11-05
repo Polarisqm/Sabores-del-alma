@@ -1,7 +1,9 @@
 const mongoose = require("mongoose");
 
+// Estados permitidos en el ciclo de vida de un pedido; las rutas administrativas los reutilizan.
 const ESTADOS = ["pendiente", "confirmado", "preparando", "entregado", "cancelado"];
 
+// Cada línea conserva una copia del precio y nombre vigentes al momento de comprar.
 const itemEsquema = new mongoose.Schema({
   postre: { type: mongoose.Schema.Types.ObjectId, ref: "Postre" },
   clave: String,
@@ -10,6 +12,7 @@ const itemEsquema = new mongoose.Schema({
   precioUnitario: Number
 }, { _id: false });
 
+// El pedido vincula al usuario, datos de contacto, productos, total, notas y estado.
 const esquema = new mongoose.Schema({
   numero: { type: String, unique: true },          // por ejemplo "SDA-K3F9A2"
   usuario: { type: mongoose.Schema.Types.ObjectId, ref: "Usuario", required: true, index: true },
@@ -20,5 +23,6 @@ const esquema = new mongoose.Schema({
   estado: { type: String, enum: ESTADOS, default: "pendiente" }
 }, { timestamps: { createdAt: "creadoEn", updatedAt: "actualizadoEn" } });
 
+// Se exporta el modelo y la lista de estados para validar cambios desde la API.
 module.exports = mongoose.model("Pedido", esquema);
 module.exports.ESTADOS = ESTADOS;

@@ -1,5 +1,5 @@
-// Sabores del Alma - cuenta de usuario, tienda y pedidos
-// Se carga después de main.js, así que puede usar sus datos (emociones, fichas) y su menú.
+// Gestiona autenticación del cliente, catálogo de tienda, compras e historial de pedidos.
+// Se carga después de main.js para reutilizar sus datos y funciones compartidas.
 //
 // OJO con la seguridad: todo lo que viene del servidor (nombres, mensajes...) se escribe con
 // textContent y nunca con innerHTML, para que nadie pueda colar código en la página.
@@ -9,13 +9,14 @@ const CLAVE_USUARIO = "sda_usuario";
 const formatoPesos = new Intl.NumberFormat("es-CO", { style: "currency", currency: "COP", maximumFractionDigits: 0 });
 const nombresEstado = { pendiente: "Pendiente", confirmado: "Confirmado", preparando: "En preparación", entregado: "Entregado", cancelado: "Cancelado" };
 
+// Estado de interfaz guardado en memoria mientras se usa esta página.
 let usuarioActual = null;    // quién tiene la sesión abierta (null si nadie)
 let postresApi = null;       // los postres con su precio, tal como los manda el servidor
 let postreEnCompra = null;   // el postre que se está comprando en la ventana
 
 
 // ---------- ayudas pequeñas ----------
-// crea un elemento con su clase y su texto
+// Crea un nodo DOM y asigna texto como texto plano para evitar insertar HTML no confiable.
 function crear(etiqueta, clase, texto) {
   const el = document.createElement(etiqueta);
   if (clase) el.className = clase;
@@ -24,16 +25,19 @@ function crear(etiqueta, clase, texto) {
 }
 
 function primerNombre(nombre) {
+  // Saludo breve en el menú, sin cambiar el nombre completo almacenado.
   return String(nombre || "").trim().split(" ")[0];
 }
 
 function rutaActual() {
+  // Convierte el hash actual en el nombre de vista y un parámetro opcional.
   const partes = location.hash.replace("#/", "").split("/");
   return { vista: partes[0] || "inicio", clave: partes[1] };
 }
 
 let temporizadorAviso;
 function mostrarAviso(texto, tipo) {
+  // Muestra un aviso global durante seis segundos y reinicia el temporizador si se repite.
   const caja = document.getElementById("aviso-global");
   caja.textContent = texto;
   caja.className = "aviso-global " + (tipo || "info");
@@ -45,6 +49,7 @@ function mostrarAviso(texto, tipo) {
 
 // ---------- hablar con el servidor ----------
 async function api(ruta, opciones) {
+  // Centraliza fetch, JSON y JWT; transforma errores de red y HTTP en errores legibles.
   opciones = opciones || {};
   const cabeceras = { "Content-Type": "application/json" };
   const token = localStorage.getItem(CLAVE_TOKEN);
@@ -74,7 +79,7 @@ async function api(ruta, opciones) {
 
 
 // ---------- la sesión ----------
-// El token se guarda en el navegador para que la sesión siga abierta si cierras la pestaña.
+// Lee los datos persistidos; si el JSON está corrupto o falta token, considera la sesión cerrada.
 function leerSesion() {
   try {
     const guardado = localStorage.getItem(CLAVE_USUARIO);
@@ -85,6 +90,7 @@ function leerSesion() {
 }
 
 function guardarSesion(token, usuario) {
+  // Persiste credenciales de cliente y actualiza la navegación con el usuario recién autenticado.
   localStorage.setItem(CLAVE_TOKEN, token);
   localStorage.setItem(CLAVE_USUARIO, JSON.stringify(usuario));
   usuarioActual = usuario;
@@ -92,6 +98,7 @@ function guardarSesion(token, usuario) {
 }
 
 function borrarSesion() {
+  // Elimina credenciales locales y cambia la interfaz a estado sin sesión.
   localStorage.removeItem(CLAVE_TOKEN);
   localStorage.removeItem(CLAVE_USUARIO);
   usuarioActual = null;
@@ -100,6 +107,7 @@ function borrarSesion() {
 
 // muestra "Ingresar / Crear cuenta" o "Hola, Nombre" según haya o no sesión
 function actualizarCabecera() {
+  // Alterna enlaces de acceso, saludo y panel administrativo según el rol.
   const dentro = Boolean(usuarioActual);
   document.querySelectorAll(".sesion-fuera").forEach(function (li) { li.hidden = dentro; });
   document.querySelector(".sesion-dentro").hidden = !dentro;
@@ -111,6 +119,7 @@ function actualizarCabecera() {
 
 // guarda a dónde iba la persona para volver ahí después de entrar
 function pedirIngreso(mensaje, hashDestino, claveCompra) {
+  // Guarda la acción pendiente para retomarla después de que la persona inicie sesión.
   if (hashDestino) sessionStorage.setItem("sda_volver", hashDestino);
   if (claveCompra) sessionStorage.setItem("sda_compra", claveCompra);
   if (mensaje) mostrarAviso(mensaje, "info");
@@ -118,6 +127,7 @@ function pedirIngreso(mensaje, hashDestino, claveCompra) {
 }
 
 function despuesDeEntrar(usuario) {
+  // Da bienvenida, restaura la ruta previa y retoma una compra que quedó en espera.
   mostrarAviso("¡Hola, " + primerNombre(usuario.nombre) + "! Ya iniciaste sesión.", "ok");
   const volver = sessionStorage.getItem("sda_volver");
   const compra = sessionStorage.getItem("sda_compra");
@@ -133,6 +143,7 @@ function despuesDeEntrar(usuario) {
 // una sola función para los formularios de este archivo: bloquea el botón mientras se envía
 // y muestra el mensaje que devuelva la acción (o el error si algo falla)
 function manejarFormulario(formulario, respuestaEl, accion) {
+  // Controla el ciclo común de envío: bloquear, ejecutar, informar resultado y liberar el botón.
   formulario.addEventListener("submit", async function (evento) {
     evento.preventDefault();
     const boton = formulario.querySelector('button[type="submit"]');
@@ -155,6 +166,7 @@ function manejarFormulario(formulario, respuestaEl, accion) {
 }
 
 const formIngresar = document.getElementById("form-ingresar");
+// Envía credenciales al backend y guarda la sesión cuando el login responde correctamente.
 manejarFormulario(formIngresar, document.getElementById("i-respuesta"), async function () {
   const resultado = await api("/auth/login", {
     metodo: "POST",
@@ -166,6 +178,7 @@ manejarFormulario(formIngresar, document.getElementById("i-respuesta"), async fu
 });
 
 const formRegistro = document.getElementById("form-registro");
+// Valida coincidencia local de claves y luego solicita la creación de la cuenta.
 manejarFormulario(formRegistro, document.getElementById("r-respuesta"), async function () {
   if (formRegistro.clave.value !== formRegistro.clave2.value) {
     throw new Error("Las dos contraseñas no coinciden.");
@@ -186,6 +199,7 @@ manejarFormulario(formRegistro, document.getElementById("r-respuesta"), async fu
 });
 
 const formContacto = document.getElementById("form-contacto");
+// Envía el formulario público de contacto y confirma al visitante que llegó.
 manejarFormulario(formContacto, document.getElementById("c-respuesta"), async function () {
   await api("/contacto", {
     metodo: "POST",
@@ -201,6 +215,7 @@ manejarFormulario(formContacto, document.getElementById("c-respuesta"), async fu
 });
 
 document.getElementById("cerrar-sesion").addEventListener("click", function () {
+  // Cierra sesión y evita dejar al cliente en una vista que requiere cuenta.
   borrarSesion();
   mostrarAviso("Cerraste sesión. ¡Vuelve pronto!", "info");
   if (rutaActual().vista === "pedidos") location.hash = "#/";
@@ -209,6 +224,7 @@ document.getElementById("cerrar-sesion").addEventListener("click", function () {
 
 // ---------- la tienda ----------
 async function cargarPostres() {
+  // Descarga el catálogo activo; guarda null y devuelve false si la API no está disponible.
   try {
     postresApi = await api("/postres");
     return true;
@@ -219,10 +235,12 @@ async function cargarPostres() {
 }
 
 function precioTexto(postre) {
+  // Presenta el precio en pesos colombianos o indica que todavía no está definido.
   return postre && postre.precio > 0 ? formatoPesos.format(postre.precio) : "Precio por definir";
 }
 
 function textoAlergenos(postre) {
+  // Distingue entre ficha provisional y ficha confirmada para no prometer seguridad alimentaria.
   if (!postre.fichaConfirmada) {
     return "Alérgenos por confirmar" + (postre.alergenos.length ? " (lleva " + postre.alergenos.join(", ").toLowerCase() + ")" : "");
   }
@@ -230,6 +248,7 @@ function textoAlergenos(postre) {
 }
 
 async function pintarTienda() {
+  // Construye las tarjetas de tienda con precios del servidor y desactiva compras no disponibles.
   const lista = document.getElementById("tienda-lista");
   const aviso = document.getElementById("tienda-aviso");
   const conectado = await cargarPostres();
@@ -274,6 +293,7 @@ async function pintarTienda() {
 
 // el precio y el botón de compra de la página de cada postre
 async function actualizarCompra(clave) {
+  // Sincroniza precio y disponibilidad del botón en la página de detalle del postre.
   const precio = document.getElementById("e-precio");
   const boton = document.getElementById("e-comprar");
   boton.dataset.clave = clave;
@@ -302,16 +322,19 @@ const dialogo = document.getElementById("dialogo-compra");
 const campoCantidad = document.getElementById("compra-cantidad");
 
 function leerCantidad() {
+  // Limita la cantidad ingresada al rango de 1 a 20, incluso si se altera el campo HTML.
   const n = parseInt(campoCantidad.value, 10);
   return Math.min(20, Math.max(1, isNaN(n) ? 1 : n));
 }
 
 function recalcularTotal() {
+  // Normaliza la cantidad y calcula el total visible con el precio actual de la API.
   campoCantidad.value = leerCantidad();
   document.getElementById("compra-total").textContent = formatoPesos.format(postreEnCompra.precio * leerCantidad());
 }
 
 async function abrirCompra(clave) {
+  // Exige sesión, comprueba disponibilidad y carga el diálogo con datos reales antes de abrirlo.
   // para comprar hay que tener cuenta: si no hay sesión, primero se inicia y luego se vuelve aquí
   if (!usuarioActual) {
     pedirIngreso("Para comprar necesitas iniciar sesión o crear una cuenta.", location.hash, clave);
@@ -344,16 +367,19 @@ async function abrirCompra(clave) {
 }
 
 document.getElementById("cantidad-menos").addEventListener("click", function () {
+  // Los botones de cantidad aplican el mismo límite que la entrada manual.
   campoCantidad.value = Math.max(1, leerCantidad() - 1);
   recalcularTotal();
 });
 document.getElementById("cantidad-mas").addEventListener("click", function () {
+  // Aumenta una unidad sin superar el máximo permitido.
   campoCantidad.value = Math.min(20, leerCantidad() + 1);
   recalcularTotal();
 });
 campoCantidad.addEventListener("input", recalcularTotal);
 
 function cerrarCompra() {
+  // Cierra el elemento dialog nativo del navegador.
   dialogo.close();
 }
 document.getElementById("compra-x").addEventListener("click", cerrarCompra);
@@ -362,10 +388,12 @@ document.getElementById("compra-cerrar").addEventListener("click", cerrarCompra)
 document.getElementById("compra-ver-pedidos").addEventListener("click", cerrarCompra);
 // un clic en el fondo oscuro también cierra la ventana
 dialogo.addEventListener("click", function (ev) {
+  // Solo cierra al pulsar el fondo exterior, no al interactuar con el contenido.
   if (ev.target === dialogo) cerrarCompra();
 });
 
 document.getElementById("compra-confirmar").addEventListener("click", async function () {
+  // Envía el pedido; el backend vuelve a calcular precios y valida disponibilidad.
   const boton = document.getElementById("compra-confirmar");
   const error = document.getElementById("compra-error");
   error.textContent = "";
@@ -398,10 +426,12 @@ document.getElementById("compra-confirmar").addEventListener("click", async func
 
 // ---------- mis pedidos ----------
 function fechaBonita(texto) {
+  // Convierte la fecha ISO recibida del backend al formato local de Colombia.
   return new Date(texto).toLocaleString("es-CO", { day: "numeric", month: "long", year: "numeric", hour: "2-digit", minute: "2-digit" });
 }
 
 async function pintarPedidos() {
+  // Solicita los pedidos de la sesión actual y crea una tarjeta por cada resultado.
   const intro = document.getElementById("pedidos-intro");
   const lista = document.getElementById("pedidos-lista");
   lista.innerHTML = "";
@@ -448,6 +478,7 @@ async function pintarPedidos() {
 
 // ---------- qué hacer en cada página ----------
 function revisarRuta() {
+  // Refresca tienda o pedidos cuando el hash cambia a una vista que necesita datos.
   const ruta = rutaActual();
 
   if (ruta.vista === "pedidos") {

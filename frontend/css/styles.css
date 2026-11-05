@@ -1,6 +1,7 @@
-/* Sabores del Alma - estilos (portal) */
+/* Hoja visual global: tokens de color, tipografía, disposición y adaptación a móvil/escritorio. */
 @import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Jost:wght@400;500;600&family=Lora:ital,wght@0,400;0,500;1,400&display=swap");
 
+/* Variables globales: paleta de marca, tonos por emoción, familias tipográficas y borde común. */
 :root {
   color-scheme: dark;
   /* colores sacados del logo: ciruela oscuro, dorado y los tonos de la gelatina */
@@ -20,6 +21,7 @@
   --linea: color-mix(in srgb, var(--tinta) 22%, transparent);
 }
 
+/* Restablece medidas y márgenes; [hidden] prevalece sobre estilos de componentes. */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 [hidden] { display: none !important; }
 html { scroll-behavior: smooth; }
@@ -27,7 +29,7 @@ img { display: block; max-width: 100%; }
 ul, ol { list-style: none; }
 a { color: inherit; }
 
-/* el color de acento cambia cuando el js le pone data-emocion al body */
+/* La emoción activa cambia el acento del tema; JavaScript la asigna en el elemento body. */
 body {
   --acento: var(--magenta);
   --suave: color-mix(in srgb, var(--acento) 45%, var(--fondo));
@@ -43,6 +45,7 @@ body[data-emocion="asco"] { --acento: var(--c-asco); }
 body[data-emocion="sorpresa"] { --acento: var(--c-sorpresa); }
 body[data-emocion="desprecio"] { --acento: var(--c-desprecio); }
 
+/* Tipografía de títulos, escala responsiva, ancho de lectura y foco visible para teclado. */
 h1, h2, h3 { font-family: var(--titulos); font-weight: 600; line-height: 1.1; }
 h1 { font-size: clamp(2.2rem, 6vw, 3.6rem); margin-bottom: .75rem; }
 h2 { font-size: 1.6rem; margin: 2rem 0 .5rem; }
@@ -53,7 +56,7 @@ p { max-width: 65ch; }
 .saltar { position: absolute; top: -4rem; left: 1rem; padding: .6rem 1rem; background: var(--fondo); z-index: 60; }
 .saltar:focus { top: 1rem; }
 
-/* ---- vistas: solo se ve una a la vez ---- */
+/* ---- vistas, contenedores y botones compartidos ---- */
 .con-js .vista:not(.activa) { display: none; }
 .contenedor { max-width: 1100px; margin: 0 auto; padding: 3rem 1.25rem 4rem; }
 .intro { font-size: 1.15rem; margin-bottom: 2rem; }
@@ -64,13 +67,13 @@ p { max-width: 65ch; }
 .boton-principal { background: var(--suave); }
 .boton:hover { background: var(--tinta); color: var(--fondo); }
 
-/* ---- franja y cabecera ---- */
+/* ---- franja informativa, marca y cabecera fija ---- */
 .franja { padding: .4rem 1.25rem; font-size: .85rem; text-align: center; color: var(--fondo); background: var(--tinta); }
 .cabecera { position: sticky; top: 0; z-index: 30; display: flex; align-items: center; justify-content: space-between; padding: .7rem 1.25rem; background: var(--fondo); border-bottom: 3px solid var(--acento); }
 .logo { display: flex; align-items: center; gap: .6rem; font-family: var(--titulos); font-size: 1.25rem; text-decoration: none; }
 .boton-menu { padding: .4rem 1rem; font: inherit; font-weight: 700; color: inherit; background: none; border: 2px solid var(--tinta); border-radius: 999px; cursor: pointer; }
 
-/* menú: en celular es un cajón, en pantalla grande va en línea */
+/* Menú adaptable: cajón desplegable en móvil y navegación horizontal en escritorio. */
 .menu { display: none; position: absolute; top: 100%; left: 0; right: 0; max-height: 80vh; overflow-y: auto; padding: .5rem 1.25rem 1.25rem; background: var(--fondo); border-bottom: 3px solid var(--acento); }
 .menu.abierto { display: block; }
 .enlace-menu { display: block; width: 100%; padding: .6rem .8rem; font: inherit; font-weight: 700; text-align: left; text-decoration: none; color: inherit; background: none; border: 0; border-radius: .6rem; cursor: pointer; }
@@ -81,7 +84,7 @@ p { max-width: 65ch; }
 .panel a { display: block; padding: .25rem 0; text-decoration: none; }
 .panel a:hover { text-decoration: underline; }
 
-/* ---- inicio ---- */
+/* ---- portada, tarjetas de destino y mosaicos de inicio ---- */
 .hero { display: grid; gap: 2rem; align-items: center; padding: 3rem 1.25rem; background: var(--claro); }
 .hero > * { max-width: 1100px; }
 .hero h1 { font-size: clamp(3rem, 10vw, 5.5rem); line-height: 1; }
@@ -92,7 +95,7 @@ p { max-width: 65ch; }
 .destino { padding: 1.5rem; text-decoration: none; background: var(--tarjeta); border: 2px solid var(--tinta); border-radius: 1.25rem; transition: transform .2s, background-color .2s; }
 .destino:hover { transform: translateY(-4px); background: var(--suave); }
 
-/* ---- emociones ---- */
+/* ---- selector de emociones: tarjetas orgánicas con color ligado a data-emocion ---- */
 .rejilla-emociones { display: flex; flex-wrap: wrap; justify-content: center; gap: 1.25rem; }
 .tarjeta-emocion { --color: var(--tinta); flex: 0 1 12rem; min-height: 11.5rem; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: .3rem; padding: 1.25rem 1rem; text-align: center; text-decoration: none; background: color-mix(in srgb, var(--color) 40%, var(--tarjeta)); border: 3px solid var(--color); border-radius: 58% 42% 55% 45% / 50% 55% 45% 50%; transition: transform .2s; }
 .tarjeta-emocion:nth-child(2n) { border-radius: 45% 55% 42% 58% / 56% 44% 56% 44%; }
@@ -110,14 +113,14 @@ p { max-width: 65ch; }
 [data-emocion="desprecio"] { --color: var(--c-desprecio); }
 body[data-emocion] { --color: initial; }
 
-/* ---- detalle de emoción ---- */
+/* ---- estructura del detalle emocional y tabla de atributos ---- */
 .resultado { display: grid; gap: 2rem; }
 .muestra { min-height: 12rem; background: var(--acento); border: 3px solid var(--tinta); border-radius: 58% 42% 55% 45% / 50% 55% 45% 50%; }
 .datos { display: grid; grid-template-columns: max-content 1fr; gap: .4rem 1.25rem; margin: 1rem 0; }
 .datos dt { font-weight: 700; }
 .datos dd { margin: 0; }
 
-/* ---- menú de postres, ciencia ---- */
+/* ---- tarjetas de postres, contenido educativo, listas y fotos del equipo ---- */
 .postre { --color: var(--tinta); overflow: hidden; text-decoration: none; background: var(--tarjeta); border: 2px solid var(--linea); border-bottom: 6px solid var(--color); border-radius: 1.25rem; }
 .postre img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; margin-bottom: .8rem; }
 .postre h3, .postre p { margin-inline: 1.1rem; }
@@ -127,7 +130,7 @@ body[data-emocion] { --color: initial; }
 .pasos { list-style: decimal; padding-left: 1.5rem; display: grid; gap: .4rem; }
 .integrante img { width: 7rem; height: 7rem; margin-bottom: .6rem; object-fit: cover; border-radius: 50%; }
 
-/* ---- chat y formulario ---- */
+/* ---- conversación y formularios: mensajes alineados y controles consistentes ---- */
 .chat { max-width: 40rem; overflow: hidden; background: var(--tarjeta); border: 2px solid var(--tinta); border-radius: 1.25rem; }
 .chat-mensajes { display: flex; flex-direction: column; gap: .6rem; height: 18rem; padding: 1rem; overflow-y: auto; }
 .mensaje { max-width: 85%; padding: .6rem .9rem; border-radius: 1rem; }
@@ -141,17 +144,19 @@ input, select, textarea { width: 100%; padding: .7rem .9rem; font: inherit; colo
 .formulario .boton { justify-self: start; margin-top: 1rem; }
 #c-respuesta { font-weight: 700; }
 
-/* ---- pie ---- */
+/* ---- pie de página y distribución de enlaces secundarios ---- */
 .pie { padding: 3rem 1.25rem; color: var(--fondo); background: var(--tinta); }
 .pie-columnas { display: grid; gap: 2rem; max-width: 1100px; margin: 0 auto 2rem; }
 .pie h2 { margin-top: 0; font-size: 1.15rem; }
 .pie li, .pie p { margin: .3rem 0; }
 
+/* En pantallas medianas/grandes, los bloques principales pasan de una a varias columnas. */
 @media (min-width: 820px) {
   .hero { grid-template-columns: 1.1fr .9fr; padding: 5rem max(1.25rem, calc((100vw - 1100px) / 2)); }
   .resultado { grid-template-columns: .7fr 1.3fr; align-items: start; }
   .pie-columnas { grid-template-columns: repeat(3, 1fr); }
 }
+/* En escritorio, el menú deja de ser un botón y se convierte en navegación horizontal. */
 @media (min-width: 1000px) {
   .cabecera { padding-inline: max(1.25rem, calc((100vw - 1100px) / 2)); }
   .boton-menu { display: none; }
@@ -162,12 +167,13 @@ input, select, textarea { width: 100%; padding: .7rem .9rem; font: inherit; colo
   .panel { position: absolute; top: 100%; left: 0; width: 28rem; padding: 1.25rem 1.5rem; background: var(--tarjeta); border: 2px solid var(--tinta); border-radius: 1rem; }
   .con-panel.abierto .panel { grid-template-columns: 1fr 1fr; }
 }
+/* Respeta la preferencia del sistema para reducir movimiento y transiciones. */
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   * { transition: none !important; }
 }
 
-/* ---- ficha del postre y tarjeta para compartir ---- */
+/* ---- ficha del postre, etiquetas de alérgenos y canvas descargable ---- */
 .ficha { margin-top: 2.5rem; padding: 1.5rem; background: var(--tarjeta); border: 2px solid var(--linea); border-bottom: 6px solid var(--acento); border-radius: 1.25rem; }
 .ficha h2 { margin-top: 0; }
 .ficha h3 { margin: 1.1rem 0 .4rem; font-family: var(--texto); font-size: 1rem; font-weight: 700; }
@@ -177,7 +183,7 @@ input, select, textarea { width: 100%; padding: .7rem .9rem; font: inherit; colo
 .compartir { margin-top: 2.5rem; }
 #tarjeta { display: block; width: 100%; max-width: 20rem; height: auto; margin: 1rem 0; border: 2px solid var(--linea); border-radius: 1rem; }
 
-/* ---- ajustes del tema oscuro ---- */
+/* ---- segunda capa de tema: refinamientos de contraste, marca y tarjeta del día ---- */
 body { font-size: 1.08rem; }
 .franja { background: var(--oro); color: var(--fondo); font-weight: 600; letter-spacing: .03em; }
 .pie { background: #1B0B16; color: var(--tinta); border-top: 1px solid var(--oro); }
@@ -199,7 +205,7 @@ body { font-size: 1.08rem; }
 .frase-caja p { font-family: var(--titulos); font-size: 1.5rem; font-style: italic; line-height: 1.3; }
 .boton-chico { padding: .35rem 1rem; font-size: .95rem; }
 
-/* ---- ciencia con pestañas ---- */
+/* ---- pestañas y paneles educativos; tarjetas internas se muestran por interacción JS ---- */
 .pestanas { display: flex; flex-wrap: wrap; gap: .5rem; margin-bottom: 2rem; }
 .pestana { padding: .45rem 1.1rem; font: inherit; font-weight: 600; color: inherit; background: none; border: 1px solid var(--oro); border-radius: 999px; cursor: pointer; transition: background-color .2s; }
 .pestana:hover { background: color-mix(in srgb, var(--oro) 25%, transparent); }
@@ -211,7 +217,7 @@ summary { font-weight: 700; cursor: pointer; }
 details p { margin-top: .6rem; }
 .fuentes li { margin-bottom: .7rem; }
 
-/* ---- mezclador ---- */
+/* ---- formularios del mezclador y lienzo donde se combinan los dibujos ---- */
 .mezclador { display: grid; gap: .6rem; max-width: 30rem; }
 .mezclador label { margin-top: .4rem; font-weight: 700; }
 .mezclador .boton { justify-self: start; margin-top: .8rem; }
@@ -226,14 +232,14 @@ details p { margin-top: .6rem; }
    ========================================================= */
 body { font-size: 1.02rem; line-height: 1.75; }
 
-/* ---- fondo: dos resplandores que se mueven despacio + polvo dorado (canvas) ---- */
+/* ---- decoración del fondo: resplandores CSS y partículas del canvas animado por JavaScript ---- */
 body::before, body::after { content: ""; position: fixed; z-index: -1; width: 60vmax; height: 60vmax; border-radius: 50%; filter: blur(100px); pointer-events: none; }
 body::before { top: -25vmax; left: -20vmax; background: var(--acento); opacity: .3; transition: background-color 1.2s ease; animation: flotar 30s ease-in-out infinite alternate; }
 body::after { bottom: -30vmax; right: -22vmax; background: var(--ambar); opacity: .18; animation: flotar 38s ease-in-out infinite alternate-reverse; }
 @keyframes flotar { to { transform: translate(9vmax, 6vmax) scale(1.12); } }
 #fondo { position: fixed; inset: 0; z-index: -1; width: 100%; height: 100%; pointer-events: none; }
 
-/* ---- tipografía: títulos serif, botones y menú en versalitas con espacio ---- */
+/* ---- jerarquía tipográfica y estilo compartido de controles ---- */
 .boton, .enlace-menu, .pestana, .boton-menu, .etiqueta-oro, .del-dia span, .formulario label, .mezclador label, .pildora, .subtitulo, .ver-mas, .franja {
   font-family: var(--ui); font-size: .78rem; font-weight: 500; letter-spacing: .14em; text-transform: uppercase;
 }
@@ -241,14 +247,14 @@ body::after { bottom: -30vmax; right: -22vmax; background: var(--ambar); opacity
 .contenedor > h1::after { content: ""; display: block; width: 4rem; height: 1px; margin-top: .9rem; background: var(--oro); }
 h1 { font-size: clamp(2.4rem, 6vw, 4rem); }
 
-/* ---- cristal: las tarjetas dejan ver el fondo ---- */
+/* ---- superficies translúcidas y animación suave al cambiar de vista ---- */
 .tarjeta, .postre, details, .ficha, .destino, .chat { background: color-mix(in srgb, var(--tarjeta) 70%, transparent); backdrop-filter: blur(10px); }
 .cabecera { background: color-mix(in srgb, var(--fondo) 85%, transparent); backdrop-filter: blur(12px); }
 .hero { background: linear-gradient(180deg, color-mix(in srgb, var(--oro) 8%, transparent), transparent); }
 .vista.activa { animation: entrar .7s ease; }
 @keyframes entrar { from { opacity: 0; transform: translateY(14px); } }
 
-/* ---- inicio ---- */
+/* ---- portada: botones, tarjeta del día y cinta horizontal de postres ---- */
 .botones { display: flex; flex-wrap: wrap; gap: .75rem; margin-top: 1.5rem; }
 .hero .boton { margin-top: 0; }
 .del-dia { display: grid; gap: 1.5rem; margin-bottom: 3.5rem; padding: 1rem; background: color-mix(in srgb, var(--color) 22%, var(--tarjeta)); }
@@ -264,7 +270,7 @@ h1 { font-size: clamp(2.4rem, 6vw, 4rem); }
 .cinta span { font-family: var(--ui); font-size: .72rem; letter-spacing: .14em; text-transform: uppercase; color: var(--oro); }
 @media (min-width: 820px) { .del-dia { grid-template-columns: 23rem 1fr; align-items: center; } }
 
-/* ---- menú de postres ---- */
+/* ---- catálogo: rejilla adaptable, hover y etiquetas de emoción ---- */
 .rejilla-postres { grid-template-columns: repeat(auto-fill, minmax(17rem, 1fr)); gap: 1.75rem; }
 .postre { transition: transform .3s, border-color .3s; }
 .postre:hover { transform: translateY(-6px); border-color: var(--oro); }
@@ -273,7 +279,7 @@ h1 { font-size: clamp(2.4rem, 6vw, 4rem); }
 .pildora { display: inline-block; margin: 0 1.1rem .7rem; padding: .15rem .8rem; background: color-mix(in srgb, var(--color) 35%, transparent); border: 1px solid var(--color); border-radius: 999px; font-size: .7rem; }
 .tarjeta-emocion span { font-family: var(--ui); font-size: .72rem; letter-spacing: .12em; text-transform: uppercase; }
 
-/* ---- página de un postre ---- */
+/* ---- detalle del postre: fotografía, relato y modo de movimiento reducido ---- */
 .foto-postre { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; border: 1px solid var(--oro); border-radius: 1.5rem; }
 .subtitulo { color: var(--oro); }
 .subtitulo b { font-weight: 500; }
@@ -285,19 +291,19 @@ h1 { font-size: clamp(2.4rem, 6vw, 4rem); }
   body::before, body::after { animation: none; }
 }
 
-/* ---- ingredientes por sección ---- */
+/* ---- jerarquía para ingredientes agrupados y legibles en la ficha ---- */
 #e-ingredientes h4 { margin: 1rem 0 .4rem; font-family: var(--ui); font-size: .78rem; font-weight: 500; letter-spacing: .14em; text-transform: uppercase; color: var(--oro); }
 .ingredientes { columns: 1; }
 .ingredientes li { margin-bottom: .25rem; }
 
-/* ---- equipo ---- */
+/* ---- retratos del equipo, identidad y acentos de marca ---- */
 .equipo { display: flex; flex-wrap: wrap; gap: 3rem; margin: 1.25rem 0 2.5rem; }
 .integrante { text-align: center; }
 .integrante img { width: 10rem; height: 10rem; margin: 0 auto 1rem; object-fit: cover; border: 2px solid var(--oro); box-shadow: 0 0 0 6px color-mix(in srgb, var(--oro) 15%, transparent); }
 .integrante h3 { margin-bottom: .2rem; }
 .integrante p { margin-inline: auto; font-family: var(--ui); font-size: .72rem; letter-spacing: .14em; text-transform: uppercase; color: var(--oro); }
 
-/* ---- asistente flotante: un círculo abajo a la derecha ---- */
+/* ---- Ángel flotante: botón, globo de bienvenida, chat y estados de espera ---- */
 .asistente-flotante { position: fixed; right: 1.1rem; bottom: 1.1rem; z-index: 40; display: flex; flex-direction: column; align-items: flex-end; gap: .9rem; }
 .asistente-boton { position: relative; width: 4.5rem; height: 4.5rem; padding: 0; background: none; border: 0; border-radius: 50%; cursor: pointer; filter: drop-shadow(0 6px 18px rgba(0, 0, 0, .5)); transition: transform .25s; }
 .asistente-boton:hover { transform: scale(1.08) rotate(-4deg); }
@@ -319,14 +325,14 @@ h1 { font-size: clamp(2.4rem, 6vw, 4rem); }
 
 .acciones { display: flex; flex-wrap: wrap; gap: .75rem; margin-top: .5rem; }
 
-/* ---- mezclador: los dos dibujos fundidos ---- */
+/* ---- presentación responsiva del resultado artístico del mezclador ---- */
 .mezcla { grid-template-columns: 1fr; }
 .mezcla-lienzo { display: block; width: 100%; max-width: 44rem; height: auto; border-radius: 1.5rem; }
 
 /* ---- equipo: apellidos largos ---- */
 .integrante h3 { max-width: 15rem; margin-inline: auto; overflow-wrap: anywhere; }
 
-/* ---- ciencia interactiva ---- */
+/* ---- mapas con puntos, filtros químicos, rostro SVG y juego educativo ---- */
 .mapa { display: grid; gap: 2rem; }
 .mapa-figura { position: relative; width: 100%; }
 .mapa-cerebro { max-width: 30rem; }
@@ -362,9 +368,7 @@ h1 { font-size: clamp(2.4rem, 6vw, 4rem); }
 .quiz-frase { margin: .6rem 0 1.25rem; font-family: var(--titulos); font-size: 1.7rem; line-height: 1.25; }
 .quiz-explica { min-height: 1.6rem; margin: 1rem 0; }
 
-/* =========================================================
-   Celular y tabletas
-   ========================================================= */
+/* ---- reglas generales para imágenes y panel en ventanas pequeñas ---- */
 html { -webkit-text-size-adjust: 100%; }
 img, canvas, svg { max-width: 100%; }
 .mapa-figura img { display: block; width: 100%; height: auto; filter: drop-shadow(0 0 14px rgba(217, 190, 139, .22)); }
@@ -373,13 +377,14 @@ img, canvas, svg { max-width: 100%; }
 .asistente-panel { display: flex; flex-direction: column; max-height: calc(100vh - 8rem); max-height: calc(100dvh - 8rem); }
 .asistente-panel .chat-mensajes { flex: 1; height: auto; min-height: 7rem; max-height: 16rem; }
 
-/* en pantallas táctiles no hay "hover", así que no dejamos efectos pegados */
+/* En pantallas táctiles no existe hover persistente, por eso se anulan esos efectos. */
 @media (hover: none) {
   .postre:hover, .destino:hover, .tarjeta-emocion:hover, .asistente-boton:hover { transform: none; }
   .cinta a:hover img { transform: none; }
 }
 
 @media (max-width: 700px) {
+  /* Reduce espacios y reorganiza controles para que no desborden en teléfonos. */
   body { font-size: 1rem; }
   body::before, body::after { filter: blur(60px); }
   .contenedor { padding: 2rem 1rem 3rem; }
@@ -414,9 +419,7 @@ img, canvas, svg { max-width: 100%; }
 
 @media (max-width: 700px) { .franja-extra { display: none; } }
 
-/* =========================================================
-   Tienda, cuenta de usuario y panel de administrador
-   ========================================================= */
+/* ---- cuenta, avisos, formularios, tienda, diálogo de compra y pedidos ---- */
 /* el menú ahora tiene más opciones, así que en pantallas medianas las apretamos un poco */
 @media (min-width: 1000px) and (max-width: 1259px) {
   .enlace-menu { padding: .5rem .5rem; letter-spacing: .08em; font-size: .7rem; }
@@ -432,14 +435,14 @@ img, canvas, svg { max-width: 100%; }
 .enlace-sesion { padding: .25rem 0; font: inherit; color: inherit; background: none; border: 0; cursor: pointer; text-decoration: underline; }
 .panel-chico li { list-style: none; }
 
-/* aviso que aparece arriba un momento (bienvenida, errores...) */
+/* Avisos globales y de tienda: los estados ok/error solo cambian su color visual. */
 .aviso-global { position: fixed; top: 1rem; left: 50%; z-index: 90; transform: translateX(-50%); width: max-content; max-width: min(34rem, calc(100% - 2rem)); padding: .8rem 1.3rem; text-align: center; background: var(--tarjeta); border: 1px solid var(--oro); border-radius: 1rem; box-shadow: 0 10px 28px rgba(0, 0, 0, .5); animation: entrar .35s ease; }
 .aviso-global.ok { border-color: #8FD19B; }
 .aviso-global.error { border-color: #E58A7E; }
 .aviso-tienda { margin-bottom: 1.5rem; padding: .9rem 1.2rem; background: color-mix(in srgb, var(--ambar) 22%, var(--tarjeta)); border: 1px solid var(--ambar); border-radius: 1rem; }
 .aviso-tienda.error { background: color-mix(in srgb, #C4283C 25%, var(--tarjeta)); border-color: #E58A7E; }
 
-/* formularios de cuenta */
+/* Consentimiento y mensajes de estado de formularios de registro e inicio de sesión. */
 .formulario .casilla { display: flex; align-items: flex-start; gap: .75rem; margin-top: 1rem; font-weight: 400; font-family: var(--texto); letter-spacing: 0; text-transform: none; font-size: .95rem; }
 input[type="checkbox"] { width: 1.2rem; height: 1.2rem; margin-top: .2rem; flex: 0 0 auto; accent-color: var(--oro); }
 .alterna { margin-top: 1.5rem; }
@@ -448,11 +451,11 @@ input[type="checkbox"] { width: 1.2rem; height: 1.2rem; margin-top: .2rem; flex:
 .respuesta-formulario.exito { color: #8FD19B; }
 .respuesta-formulario.error { color: #F0998E; }
 
-/* precio y compra en la página de cada postre */
+/* Precio y acciones rápidas que aparecen en la ficha individual del postre. */
 .precio { font-family: var(--titulos); font-size: 1.9rem; font-weight: 600; line-height: 1.1; color: var(--oro); }
 .compra-rapida { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem 1.5rem; margin: 0 0 1.75rem; }
 
-/* la tienda */
+/* Tarjetas del catálogo de tienda, estados deshabilitados y disponibilidad de compra. */
 .rejilla-tienda { display: grid; grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr)); gap: 1.75rem; }
 .postre-tienda { --color: var(--tinta); display: flex; flex-direction: column; overflow: hidden; background: color-mix(in srgb, var(--tarjeta) 70%, transparent); backdrop-filter: blur(10px); border: 2px solid var(--linea); border-bottom: 6px solid var(--color); border-radius: 1.25rem; }
 .postre-tienda img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; }
@@ -465,7 +468,7 @@ input[type="checkbox"] { width: 1.2rem; height: 1.2rem; margin-top: .2rem; flex:
 .boton:disabled { opacity: .45; cursor: not-allowed; }
 .boton:disabled:hover { color: var(--cacao); background: transparent; }
 
-/* la ventana de compra */
+/* Diálogo nativo y distribución de sus campos, cantidad y resumen de total. */
 .dialogo { width: min(44rem, calc(100% - 2rem)); max-height: calc(100vh - 2rem); max-height: calc(100dvh - 2rem); padding: 0; overflow: auto; color: var(--tinta); background: var(--fondo); border: 1px solid var(--oro); border-radius: 1.25rem; }
 .dialogo::backdrop { background: rgba(10, 4, 8, .78); backdrop-filter: blur(4px); }
 .dialogo-contenido { position: relative; padding: 1.6rem; }
@@ -480,7 +483,7 @@ input[type="checkbox"] { width: 1.2rem; height: 1.2rem; margin-top: .2rem; flex:
 .total b { color: var(--oro); font-size: 1.4rem; }
 @media (min-width: 640px) { .compra-cuerpo { grid-template-columns: 13rem 1fr; } .compra-cuerpo img { aspect-ratio: 3 / 4; } }
 
-/* mis pedidos */
+/* Tarjetas de pedidos: cada estado usa un color propio para lectura rápida. */
 .lista-pedidos { display: grid; gap: 1.25rem; max-width: 40rem; }
 .pedido { padding: 1.25rem 1.4rem; background: color-mix(in srgb, var(--tarjeta) 70%, transparent); border: 1px solid var(--linea); border-radius: 1.25rem; }
 .pedido-cabecera { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: .5rem; }
@@ -492,7 +495,7 @@ input[type="checkbox"] { width: 1.2rem; height: 1.2rem; margin-top: .2rem; flex:
 .estado-entregado { background: color-mix(in srgb, #5DB66F 35%, transparent); }
 .estado-cancelado { background: color-mix(in srgb, #C4283C 35%, transparent); }
 
-/* panel de administrador */
+/* Tablas, listas de mensajes y acciones del panel administrativo. */
 .admin-acciones { display: flex; align-items: center; gap: .25rem; }
 .tabla-admin { overflow-x: auto; }
 .tabla-admin table { width: 100%; min-width: 40rem; border-collapse: collapse; }
@@ -513,6 +516,6 @@ input[type="checkbox"] { width: 1.2rem; height: 1.2rem; margin-top: .2rem; flex:
   .rejilla-tienda { grid-template-columns: 1fr; }
 }
 
-/* ---- Ángel: respuestas con saltos de línea y mensaje de espera ---- */
+/* Conserva saltos de línea en respuestas de Ángel y diferencia visualmente su espera. */
 .asistente-panel .mensaje { white-space: pre-line; }
 .asistente-panel .espera { opacity: .6; font-style: italic; }

@@ -1,11 +1,12 @@
-// Sabores del Alma - panel de administrador
-// Todo lo que viene del servidor se escribe con textContent (nunca innerHTML) para que nadie pueda colar código.
+// Controla el panel administrativo para pedidos, mensajes, precios y cuentas.
+// Los datos variables se insertan como texto seguro; no se interpreta contenido del servidor como HTML.
 
 const CLAVE_ADMIN = "sda_admin_token";
 const formatoPesos = new Intl.NumberFormat("es-CO", { style: "currency", currency: "COP", maximumFractionDigits: 0 });
 const estados = ["pendiente", "confirmado", "preparando", "entregado", "cancelado"];
 const nombresEstado = { pendiente: "Pendiente", confirmado: "Confirmado", preparando: "En preparación", entregado: "Entregado", cancelado: "Cancelado" };
 
+// Crea elementos de interfaz e inserta el contenido como texto plano.
 function crear(etiqueta, clase, texto) {
   const el = document.createElement(etiqueta);
   if (clase) el.className = clase;
@@ -14,15 +15,17 @@ function crear(etiqueta, clase, texto) {
 }
 
 function fechaBonita(texto) {
+  // Convierte las fechas del backend a un formato legible en español de Colombia.
   return new Date(texto).toLocaleString("es-CO", { day: "numeric", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit" });
 }
 
-// el token del administrador vive solo mientras la pestaña esté abierta
+// El token administrativo vive en sessionStorage y desaparece al cerrar la pestaña.
 function leerToken() {
   try { return sessionStorage.getItem(CLAVE_ADMIN); } catch (error) { return null; }
 }
 
 async function api(ruta, opciones) {
+  // Centraliza fetch con JWT y convierte fallos de red o HTTP en errores manejables por el panel.
   opciones = opciones || {};
   const cabeceras = { "Content-Type": "application/json" };
   const token = leerToken();
@@ -50,6 +53,7 @@ async function api(ruta, opciones) {
 
 let temporizador;
 function avisar(texto, esError) {
+  // Muestra un aviso temporal y diferencia visualmente los errores.
   const caja = document.getElementById("admin-aviso");
   caja.textContent = texto;
   caja.className = "aviso-tienda" + (esError ? " error" : "");
@@ -58,7 +62,7 @@ function avisar(texto, esError) {
   temporizador = setTimeout(function () { caja.hidden = true; }, 5000);
 }
 
-// si el servidor dice que la sesión ya no sirve, se vuelve a la pantalla de entrada
+// Ante sesión vencida o falta de permisos se limpia el acceso y vuelve al formulario.
 function manejarFallo(error) {
   if (error.estado === 401 || error.estado === 403) {
     salir();
@@ -69,17 +73,20 @@ function manejarFallo(error) {
 
 // ---------- entrar y salir ----------
 function mostrarPanel(dentro) {
+  // Alterna formulario de acceso, contenido administrativo y botón de salida.
   document.getElementById("admin-login").hidden = dentro;
   document.getElementById("admin-panel").hidden = !dentro;
   document.getElementById("admin-salir").hidden = !dentro;
 }
 
 function salir() {
+  // Borra el token temporal y deja visible el formulario de login.
   try { sessionStorage.removeItem(CLAVE_ADMIN); } catch (error) { /* nada que borrar */ }
   mostrarPanel(false);
 }
 
 document.getElementById("admin-form").addEventListener("submit", async function (evento) {
+  // Inicia sesión con la API y permite entrar solo si el rol que devuelve es admin.
   evento.preventDefault();
   const respuesta = document.getElementById("admin-respuesta");
   const boton = evento.target.querySelector("button");
@@ -113,6 +120,7 @@ document.getElementById("admin-salir").addEventListener("click", salir);
 const pestanas = document.querySelectorAll(".pestana");
 pestanas.forEach(function (p) {
   p.addEventListener("click", function () {
+    // Activa la pestaña pulsada y oculta los demás paneles administrativos.
     pestanas.forEach(function (otra) { otra.classList.toggle("activa", otra === p); });
     document.querySelectorAll(".panel-ciencia").forEach(function (panel) {
       panel.hidden = panel.id !== "a-" + p.dataset.panel;
@@ -122,6 +130,7 @@ pestanas.forEach(function (p) {
 
 // ---------- tablas ----------
 function tabla(columnas) {
+  // Construye una tabla con una fila de encabezados reutilizable en cada sección.
   const t = crear("table");
   const cabecera = crear("tr");
   columnas.forEach(function (c) { cabecera.appendChild(crear("th", "", c)); });
@@ -130,6 +139,7 @@ function tabla(columnas) {
 }
 
 function celda(fila, contenido) {
+  // Agrega texto seguro o un nodo ya construido a una fila de tabla.
   const td = crear("td");
   if (typeof contenido === "string") td.textContent = contenido;
   else td.appendChild(contenido);
@@ -138,6 +148,7 @@ function celda(fila, contenido) {
 
 // ---------- pedidos ----------
 async function cargarPedidos() {
+  // Descarga pedidos, calcula pendientes y crea controles para cambiar su estado.
   const pedidos = await api("/admin/pedidos");
   const pendientes = pedidos.filter(function (p) { return p.estado === "pendiente"; }).length;
   document.getElementById("a-pedidos-resumen").textContent = pedidos.length + " pedidos en total, " + pendientes + " pendientes.";
@@ -170,6 +181,7 @@ async function cargarPedidos() {
       selector.appendChild(opcion);
     });
     selector.addEventListener("change", async function () {
+      // Persiste el estado elegido; si falla, restaura en pantalla el valor anterior.
       try {
         await api("/admin/pedidos/" + pedido._id + "/estado", { metodo: "PATCH", cuerpo: { estado: selector.value } });
         avisar("Pedido " + pedido.numero + " ahora está " + nombresEstado[selector.value].toLowerCase() + ".");
@@ -189,6 +201,7 @@ async function cargarPedidos() {
 
 // ---------- mensajes ----------
 async function cargarMensajes() {
+  // Muestra mensajes recibidos, permite marcarlos como leídos y pide confirmación al borrarlos.
   const mensajes = await api("/admin/mensajes");
   const sinLeer = mensajes.filter(function (m) { return !m.leido; }).length;
   document.getElementById("a-mensajes-resumen").textContent = mensajes.length + " mensajes, " + sinLeer + " sin leer.";
@@ -206,6 +219,7 @@ async function cargarMensajes() {
       const leer = crear("button", "boton boton-chico", "Marcar como leído");
       leer.type = "button";
       leer.addEventListener("click", async function () {
+        // Actualiza el estado de lectura en el servidor y recarga el listado.
         try { await api("/admin/mensajes/" + m._id + "/leido", { metodo: "PATCH" }); cargarMensajes(); } catch (error) { manejarFallo(error); }
       });
       acciones.appendChild(leer);
@@ -213,6 +227,7 @@ async function cargarMensajes() {
     const borrar = crear("button", "boton boton-chico", "Borrar");
     borrar.type = "button";
     borrar.addEventListener("click", async function () {
+      // Evita borrar accidentalmente y actualiza la lista después de confirmar.
       if (!confirm("¿Borrar este mensaje?")) return;
       try { await api("/admin/mensajes/" + m._id, { metodo: "DELETE" }); cargarMensajes(); } catch (error) { manejarFallo(error); }
     });
@@ -225,6 +240,7 @@ async function cargarMensajes() {
 
 // ---------- postres y precios ----------
 async function cargarPostres() {
+  // Obtiene el catálogo administrativo y permite editar precio, disponibilidad y ficha de alérgenos.
   const postres = await api("/admin/postres");
   const t = tabla(["Postre", "Emoción", "Precio (pesos)", "Se vende", "Alérgenos confirmados", ""]);
 
@@ -257,6 +273,7 @@ async function cargarPostres() {
     const guardar = crear("button", "boton boton-chico", "Guardar");
     guardar.type = "button";
     guardar.addEventListener("click", async function () {
+      // Envía solo los campos editables y muestra el resultado del guardado.
       try {
         await api("/admin/postres/" + postre._id, {
           metodo: "PUT",
@@ -278,6 +295,7 @@ async function cargarPostres() {
 
 // ---------- usuarios ----------
 async function cargarUsuarios() {
+  // Lista perfiles públicos sin contraseñas ni hashes.
   const usuarios = await api("/admin/usuarios");
   document.getElementById("a-usuarios-resumen").textContent = usuarios.length + " cuentas registradas.";
   const t = tabla(["Nombre", "Correo", "Teléfono", "Rol", "Registro"]);
@@ -296,11 +314,13 @@ async function cargarUsuarios() {
 }
 
 function cargarTodo() {
+  // Solicita en paralelo los cuatro paneles para reducir el tiempo de carga.
   Promise.all([cargarPedidos(), cargarMensajes(), cargarPostres(), cargarUsuarios()]).catch(manejarFallo);
 }
 
 // si la pestaña ya tenía una sesión abierta, entramos directo (si el token venció, el servidor responde 401 y se sale)
 if (leerToken()) {
+  // Recupera la sesión existente de esta pestaña; el backend verifica si el token sigue válido.
   mostrarPanel(true);
   document.getElementById("admin-saludo").textContent = "Sesión de administrador abierta.";
   cargarTodo();

@@ -1,12 +1,12 @@
 const mongoose = require("mongoose");
 
-// En MongoDB los ingredientes y los alérgenos van DENTRO del postre,
-// no en tablas aparte como en una base relacional.
+// En este modelo documental, ingredientes y alérgenos se guardan dentro del documento de postre.
 const ingredienteEsquema = new mongoose.Schema({
   seccion: String,   // por ejemplo "Capa cremosa" o "Cobertura"
   texto: String      // por ejemplo "200 g de queso crema"
 }, { _id: false });
 
+// Esquema principal de un postre y su emoción asociada.
 const esquema = new mongoose.Schema({
   clave: { type: String, required: true, unique: true },   // es la misma clave de su emoción
   orden: { type: Number, default: 0 },
@@ -23,4 +23,5 @@ const esquema = new mongoose.Schema({
   alergenos: [String]
 }, { timestamps: { createdAt: "creadoEn", updatedAt: "actualizadoEn" } });
 
+// Registra el modelo utilizado por las rutas públicas, de pedidos y del panel administrador.
 module.exports = mongoose.model("Postre", esquema);
