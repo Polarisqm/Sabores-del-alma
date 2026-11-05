@@ -9,6 +9,7 @@ venv/
 
 # secretos, nunca se suben
 .env
+ai/env
 
 # del sistema
 .DS_Store
