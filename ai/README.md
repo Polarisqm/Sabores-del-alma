@@ -1,56 +1,99 @@
 # Ángel, el asistente de Sabores del Alma
 
-Ángel es el asistente de la página. Es un servidor en Python (FastAPI) que consulta a **Gemini**
-(Google) y le da lo que necesita para responder bien: la historia del sitio y los postres reales
-que están en MongoDB.
+Ángel es un servidor en Python que conecta el chat de la página con Gemini. También consulta el backend para obtener las emociones y los postres. Para usarlo necesitas iniciar **MongoDB, el backend y Ángel**; deja cada servidor abierto en una terminal distinta.
 
-## Cómo funciona
-1. La persona escribe en el chat de la página.
-2. La página llama a `POST /api/asistente` de este servidor.
-3. Antes de llamar al modelo se revisa si hay señales de que alguien quiere hacerse daño. Si las hay,
-   responde siempre con el mensaje de seguridad (no improvisa) y el número 123.
-4. Este servidor pide a la API de Node los postres y emociones (lo que está en MongoDB), sin usuarios
-   ni pedidos, y arma el contexto.
-5. Gemini responde como Ángel. Si la persona ya dejó claro cómo se siente, puede recomendar un postre
-   y la página muestra el enlace.
+## Requisitos
 
-## Clave gratuita
-1. Entra a **aistudio.google.com/apikey** con tu cuenta de Google.
-2. Crea una clave y cópiala. No pide tarjeta de crédito.
-3. Ponla en `.env` como `GEMINI_API_KEY`.
+- Python 3.10 o posterior.
+- Node.js y npm.
+- Acceso a una base de datos MongoDB.
+- Una clave de Gemini creada en [Google AI Studio](https://aistudio.google.com/apikey).
 
-## Pasos
-1. Instalar Python 3.10 o más nuevo.
-2. Dentro de esta carpeta, crear el entorno y las dependencias:
-   ```
-   python -m venv .venv
-   .venv\Scripts\activate          (Windows)
-   source .venv/bin/activate       (Mac o Linux)
-   pip install -r requirements.txt
-   ```
-3. Copiar `.env.example` como `.env` y poner `GEMINI_API_KEY`.
-4. Tener encendido el backend de Node (`npm run dev` en `backend/`), porque Ángel lee los postres de ahí.
-5. Arrancar Ángel:
-   ```
-   python -m uvicorn app:app --reload --port 8000
-   ```
-6. Comprobar: abre http://localhost:8000/api/salud. Debe responder `{"ok": true, ...}`.
+## 1. Configurar el backend
 
-## Modelo y límites
-- `MODELO_IA=gemini-2.5-flash` es el valor por defecto. Tiene nivel gratuito.
-- Los modelos Pro ya no son gratuitos. Para Ángel no hacen falta.
-- Los límites gratuitos (mensajes por minuto y por día) cambian. Si Ángel responde con "no pudo responder
-  ahora" de forma repetida, es probable que se haya agotado el cupo del día. Se renueva al día siguiente.
-- `MAX_MENSAJES_POR_HORA` limita cuántos mensajes puede mandar una misma conexión.
+Abre una terminal en la carpeta `backend/` e instala las dependencias:
 
-## Privacidad (importante)
-En el nivel gratuito de Gemini, Google puede usar lo que se escribe para mejorar sus productos.
-Ángel recibe conversaciones personales, así que:
-- Para la presentación y las pruebas, usa mensajes de prueba.
-- Si la página se publica con personas reales, pasa a un plan de pago de Gemini (el uso no se usa para entrenar)
-  o a un modelo que corra en tu propio servidor.
+```powershell
+npm install
+```
 
-## Seguridad
-- La clave solo vive en el `.env` del servidor. Nunca va en la página ni en GitHub.
-- Ángel no tiene acceso a usuarios, contraseñas ni pedidos: solo lee la lista pública de postres.
-- Si alguien habla de hacerse daño, responde con el número de emergencias (123) sin consultar al modelo.
+Crea manualmente un archivo llamado `.env` dentro de `backend/`. No existe una plantilla `.env.example` en el repositorio. El archivo debe incluir:
+
+```dotenv
+MONGODB_URI=pega_aqui_tu_URI_de_MongoDB
+JWT_SECRETO=escribe_aqui_un_secreto_largo_y_privado
+FRONTEND_URL=http://localhost:5500,http://127.0.0.1:5500
+```
+
+Reemplaza los dos primeros valores con tus datos. `MONGODB_URI` se obtiene de la configuración de tu base de datos. Para `JWT_SECRETO`, usa una cadena larga, privada y difícil de adivinar. No compartas ni subas este archivo.
+
+Si la base de datos todavía no tiene las emociones y los postres del proyecto, ejecuta una vez:
+
+```powershell
+npm run sembrar
+```
+
+Después, inicia el backend:
+
+```powershell
+npm run dev
+```
+
+Comprueba que está activo en <http://localhost:3000/api/salud>. Debe responder `{"ok":true}`.
+
+## 2. Configurar y arrancar Ángel
+
+Abre **otra terminal** en `ai/` y crea el archivo `.env` dentro de esa carpeta. Tampoco hay una plantilla `.env.example` para la IA. Añade:
+
+```dotenv
+GEMINI_API_KEY=pega_aqui_tu_clave_de_Gemini
+FRONTEND_URL=http://localhost:5500,http://127.0.0.1:5500
+API_URL=http://localhost:3000/api
+```
+
+`GEMINI_API_KEY` es obligatoria. `API_URL` apunta al backend local; `FRONTEND_URL` permite que la página local se comunique con Ángel. Si usas otro puerto para el frontend o el backend, actualiza las direcciones correspondientes. Nunca publiques tu clave ni el archivo `.env`.
+
+### Windows (PowerShell)
+
+Ejecuta estos comandos desde `ai/`:
+
+```powershell
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+python -m pip install -r requirements.txt
+python -m uvicorn app:app --reload --port 8000
+```
+
+Si PowerShell bloquea la activación del entorno, puedes omitir el segundo comando y usar directamente su Python:
+
+```powershell
+.\.venv\Scripts\python.exe -m pip install -r requirements.txt
+.\.venv\Scripts\python.exe -m uvicorn app:app --reload --port 8000
+```
+
+### macOS o Linux
+
+Ejecuta estos comandos desde `ai/`:
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+python -m pip install -r requirements.txt
+python -m uvicorn app:app --reload --port 8000
+```
+
+Ángel debe responder en <http://localhost:8000/api/salud>. La respuesta indica que está activo y qué modelo intentará usar.
+
+## 3. Abrir la página
+
+Abre `frontend/index.html` con la extensión Live Server de VS Code. El puerto usual es `5500`; si Live Server muestra otro, actualiza `FRONTEND_URL` en los dos archivos `.env` y reinicia ambos servidores.
+
+## Si algo falla
+
+- **No se conecta a MongoDB:** revisa `MONGODB_URI` y que la base de datos permita la conexión desde tu red.
+- **El backend dice que falta `JWT_SECRETO` o `MONGODB_URI`:** verifica que el archivo se llame exactamente `.env` y esté dentro de `backend/`.
+- **Ángel dice que falta la clave de Gemini:** revisa `GEMINI_API_KEY` en `ai/.env`.
+- **Ángel no encuentra postres o emociones:** confirma que el backend esté activo y que la base tenga los datos iniciales.
+- **El navegador bloquea una solicitud:** comprueba que `FRONTEND_URL` coincida con la dirección que muestra Live Server y reinicia los servidores.
+
+Los entornos `.venv` y las dependencias se instalan localmente en cada computadora; no se suben a GitHub. Los archivos `.env` también son locales porque contienen secretos.
