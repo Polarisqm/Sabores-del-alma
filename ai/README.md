@@ -32,7 +32,7 @@ que están en MongoDB.
 4. Tener encendido el backend de Node (`npm run dev` en `backend/`), porque Ángel lee los postres de ahí.
 5. Arrancar Ángel:
    ```
-   uvicorn app:app --reload --port 8000
+   python -m uvicorn app:app --reload --port 8000
    ```
 6. Comprobar: abre http://localhost:8000/api/salud. Debe responder `{"ok": true, ...}`.
 
