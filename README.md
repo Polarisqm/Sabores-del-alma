@@ -1,46 +1,28 @@
 # Sabores del Alma
 
-<<<<<<< HEAD
-Proyecto final del programa Jóvenes Creativos. Una página web donde eliges cómo te sientes
-=======
-Este es nuestro proyecto final de jovenes creativos. Una página web donde eliges cómo te sientes
->>>>>>> 57b474ec304708ce90947cb7576fc1c6d6b9dbb6
-y descubres el postre, el color y el sabor que representan esa emoción.
+Proyecto final del programa Jóvenes Creativos. La idea es una página web en  donde eliges cómo te sientes
+y descubres el postre, el color y el sabor que representan esa emoción
 
 "Siente, expresa y saborea lo que llevas dentro."
 
 ## Tecnologías
-- Frontend: HTML, CSS, JavaScript y React
+- Frontend: HTML, CSS y JavaScript
 - Backend: Node.js + Express
-<<<<<<< HEAD
 - Base de datos: MongoDB (Atlas)
-- Asistente Ángel: Python (FastAPI) + Claude de Anthropic
-=======
-- Base de datos: MySQL
-- Asistente: Python
->>>>>>> 57b474ec304708ce90947cb7576fc1c6d6b9dbb6
+- Asistente Ángel: Python (FastAPI) + Gemini de Google (Hay varias versiones debido a la alta demanda de la versión, por lo que a veces no responde. En tal caso se programó una respuesta automatica en la seccion app.py) 
 
 ## Carpetas
-- `frontend/` la página
+- `frontend/` la estructura de la página
 - `backend/` la API
-<<<<<<< HEAD
-- `ai/` Ángel, el asistente con inteligencia artificial
-- `docs/` bocetos y notas
+- `ai/` Angel, el asistente con inteligencia artificial
+- `docs/` bocetos, notas, img, etc.
 
 ## Estado
-Página conectada a MongoDB (los postres, emociones y frases salen de la base), tienda, cuentas de usuario, pedidos, panel de administrador y el asistente Ángel con inteligencia artificial.
+Página conectada a MongoDB (los postres, emociones y frases salen de la base), tienda, cuentas de usuario, pedidos, panel de administrador y el asistente Angel con inteligencia artificial. (90% Finalizada, se deben corregir algunos errores)
 
-## Para arrancar todo (en este orden)
+## Para arrancar todo (en este orden). Es importante arrancar primero el backend y luego la IA, ya que se buguea
 1. `backend/`: `npm install`, copiar `.env.example` como `.env` con tu `MONGODB_URI` y `JWT_SECRETO`, luego `npm run dev`.
 2. `ai/`: crear el entorno, `pip install -r requirements.txt`, copiar `.env.example` como `.env` con tu `GEMINI_API_KEY` (gratis en aistudio.google.com/apikey), luego `uvicorn app:app --reload --port 8000`.
-3. `frontend/`: abrir `index.html` con Live Server (puerto 5500) o con doble clic.
-=======
-- `ai/` el asistente
-- `database/` scripts de MySQL
-- `docs/` bocetos y notas
+3. `frontend/`: abrir `index.html` con Live Server (puerto 5500) o con doble clic
 
-## Estado
-incompleto
->>>>>>> 57b474ec304708ce90947cb7576fc1c6d6b9dbb6
-
-> Este proyecto no reemplaza el apoyo psicológico o médico.
+> Este proyecto no reemplaza el apoyo psicológico o médico
