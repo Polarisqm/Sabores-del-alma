@@ -1,0 +1,479 @@
+{
+  "emociones": [
+    {
+      "clave": "alegria",
+      "nombre": "Alegría",
+      "colorHex": "#F29B4B",
+      "colorNombre": "Ámbar y rosa",
+      "significado": "Es una emoción agradable que aparece cuando algo nos hace sentir bien. Sirve para celebrar y compartir.",
+      "regulacion": "Compártela con alguien y date un momento para notar qué la provocó.",
+      "frases": [
+        "Hoy la vida te sabe a algo dulce.",
+        "Tu alegría también ilumina a quienes te rodean.",
+        "Celebrar lo pequeño es otra forma de agradecer.",
+        "Que no falte una razón para sonreír hoy.",
+        "La alegría compartida sabe el doble."
+      ]
+    },
+    {
+      "clave": "tristeza",
+      "nombre": "Tristeza",
+      "colorHex": "#8A78C4",
+      "colorNombre": "Violeta lavanda",
+      "significado": "Suele aparecer ante una pérdida o una decepción. Sentirla no es malo: nos invita a parar y cuidarnos.",
+      "regulacion": "Escribe lo que sientes o cuéntaselo a alguien de confianza. Si dura mucho, busca apoyo profesional.",
+      "frases": [
+        "Incluso la noche más larga termina en amanecer.",
+        "Está bien detenerse un momento a sentir.",
+        "Lo que hoy pesa, mañana puede ser sabiduría.",
+        "Hasta la luna descansa antes de volver a brillar.",
+        "No tienes que explicarlo todo para que sea válido."
+      ]
+    },
+    {
+      "clave": "ira",
+      "nombre": "Ira",
+      "colorHex": "#C42B4D",
+      "colorNombre": "Carmesí",
+      "significado": "Es una emoción intensa que suele aparecer cuando algo nos parece injusto o nos frustra. Activa el cuerpo.",
+      "regulacion": "Haz una pausa, respira lento unas cuantas veces y espera antes de responder.",
+      "frases": [
+        "El fuego también da calor si lo cuidas.",
+        "Sentir enojo no te define; lo que haces con él, sí.",
+        "Antes de responder, deja que el fuego baje.",
+        "Detrás de cada enojo suele haber algo que te importa.",
+        "Tu fuerza vale más cuando la usas con calma."
+      ]
+    },
+    {
+      "clave": "miedo",
+      "nombre": "Miedo",
+      "colorHex": "#7A5A8C",
+      "colorNombre": "Ciruela oscuro",
+      "significado": "Es una alarma del cuerpo ante algo que percibimos como una amenaza. Nos prepara para cuidarnos.",
+      "regulacion": "Respira lento, nombra lo que te asusta y busca a alguien con quien hablarlo.",
+      "frases": [
+        "Hasta en la noche más oscura se aprende a ver.",
+        "Tener miedo no te hace menos valiente.",
+        "Lo desconocido también guarda cosas buenas.",
+        "Dar un paso pequeño ya es dar un paso.",
+        "Ponerle nombre al miedo le quita algo de poder."
+      ]
+    },
+    {
+      "clave": "asco",
+      "nombre": "Asco",
+      "colorHex": "#A5AE55",
+      "colorNombre": "Verde oliva",
+      "significado": "Es una reacción de rechazo hacia algo que sentimos que nos puede hacer daño o que no nos gusta.",
+      "regulacion": "Aléjate de lo que lo provoca y date un momento para que se te pase.",
+      "frases": [
+        "Tus límites también hablan de lo que valoras.",
+        "Rechazar lo que no te gusta es una forma de cuidarte.",
+        "No todo tiene que gustarte para que lo entiendas.",
+        "Saber qué no quieres te acerca a lo que sí.",
+        "Tomar distancia también es una decisión."
+      ]
+    },
+    {
+      "clave": "sorpresa",
+      "nombre": "Sorpresa",
+      "colorHex": "#F2C14E",
+      "colorNombre": "Dorado",
+      "significado": "Aparece de golpe ante algo inesperado. Dura poco y suele dar paso a otra emoción.",
+      "regulacion": "Date unos segundos para entender qué pasó antes de reaccionar.",
+      "frases": [
+        "La vida guarda secretos que valen la pena.",
+        "Hoy puede pasar algo que no esperabas.",
+        "Lo inesperado a veces llega envuelto en dorado.",
+        "Quédate con la curiosidad; casi nunca falla.",
+        "Un instante de asombro cambia todo el día."
+      ]
+    },
+    {
+      "clave": "desprecio",
+      "nombre": "Desprecio",
+      "colorHex": "#A0714F",
+      "colorNombre": "Café caramelo",
+      "significado": "Es sentir que algo o alguien está por debajo de nosotros. Conviene mirar de dónde viene ese rechazo.",
+      "regulacion": "Piensa qué lo provocó y trata de ponerte en el lugar del otro antes de juzgar.",
+      "frases": [
+        "Antes de juzgar, pregúntate de dónde viene el rechazo.",
+        "Mirar con curiosidad abre más puertas que mirar por encima.",
+        "Lo que desdeñas dice algo de lo que valoras.",
+        "Cambiar la mirada también es cambiar la historia.",
+        "Detrás de cada distancia hay una razón que entender."
+      ]
+    }
+  ],
+  "postres": [
+    {
+      "clave": "alegria",
+      "nombre": "Dulce Aurora",
+      "sabor": "Mango y fresa",
+      "historia": "Dulce Aurora nace de la primera luz del día: capas de color ámbar que se funden entre sí, como cuando algo bueno apenas empieza y ya se siente.",
+      "imagen": "postre-alegria.jpg",
+      "ingredientes": [
+        {
+          "seccion": "Capa principal",
+          "texto": "100 ml de leche"
+        },
+        {
+          "seccion": "Capa principal",
+          "texto": "100 g de pulpa de mango"
+        },
+        {
+          "seccion": "Capa principal",
+          "texto": "100 g de puré de fresa"
+        },
+        {
+          "seccion": "Capa principal",
+          "texto": "1 cucharadita de vainilla"
+        },
+        {
+          "seccion": "Capa principal",
+          "texto": "7 g de gelatina sin sabor y 35 ml de agua"
+        },
+        {
+          "seccion": "Capa principal",
+          "texto": "Estevia líquida: cantidad equivalente a 15–20 g de azúcar, según la etiqueta"
+        },
+        {
+          "seccion": "Cobertura",
+          "texto": "80 g de mango"
+        },
+        {
+          "seccion": "Cobertura",
+          "texto": "60 g de fresa"
+        },
+        {
+          "seccion": "Cobertura",
+          "texto": "3 g de gelatina sin sabor y 15 ml de agua"
+        },
+        {
+          "seccion": "Cobertura",
+          "texto": "Estevia al gusto, comenzando con una cantidad equivalente a 5 g de azúcar"
+        }
+      ],
+      "alergenos": [
+        "Lácteos"
+      ]
+    },
+    {
+      "clave": "tristeza",
+      "nombre": "Luna Serena",
+      "sabor": "Arándanos y crema",
+      "historia": "Luna Serena es el postre de las noches tranquilas. Su azul suave recuerda a la luna cuando todo se calma, y su textura invita a ir despacio.",
+      "imagen": "postre-tristeza.jpg",
+      "ingredientes": [
+        {
+          "seccion": "Capa cremosa",
+          "texto": "200 g de queso crema"
+        },
+        {
+          "seccion": "Capa cremosa",
+          "texto": "150 ml de crema de leche"
+        },
+        {
+          "seccion": "Capa cremosa",
+          "texto": "100 ml de leche"
+        },
+        {
+          "seccion": "Capa cremosa",
+          "texto": "100 g de puré de arándanos"
+        },
+        {
+          "seccion": "Capa cremosa",
+          "texto": "1 cucharadita de vainilla"
+        },
+        {
+          "seccion": "Capa cremosa",
+          "texto": "7 g de gelatina sin sabor y 35 ml de agua"
+        },
+        {
+          "seccion": "Capa cremosa",
+          "texto": "Estevia equivalente a 20–25 g de azúcar"
+        },
+        {
+          "seccion": "Cobertura",
+          "texto": "100 g de arándanos triturados"
+        },
+        {
+          "seccion": "Cobertura",
+          "texto": "20 ml de agua"
+        },
+        {
+          "seccion": "Cobertura",
+          "texto": "3 g de gelatina sin sabor"
+        },
+        {
+          "seccion": "Cobertura",
+          "texto": "Estevia equivalente a 5–10 g de azúcar"
+        }
+      ],
+      "alergenos": [
+        "Lácteos"
+      ]
+    },
+    {
+      "clave": "ira",
+      "nombre": "Fuego Carmesí",
+      "sabor": "Chocolate y frutos rojos",
+      "historia": "Fuego Carmesí es un rojo profundo que se siente antes de probarse. Es intenso a propósito, porque hay emociones que merecen sentirse con toda su fuerza y con cuidado.",
+      "imagen": "postre-ira.jpg",
+      "ingredientes": [
+        {
+          "seccion": "Capa cremosa",
+          "texto": "200 g de queso crema"
+        },
+        {
+          "seccion": "Capa cremosa",
+          "texto": "150 ml de crema de leche"
+        },
+        {
+          "seccion": "Capa cremosa",
+          "texto": "100 g de chocolate semiamargo"
+        },
+        {
+          "seccion": "Capa cremosa",
+          "texto": "80 g de puré de frutos rojos"
+        },
+        {
+          "seccion": "Capa cremosa",
+          "texto": "7 g de gelatina sin sabor y 35 ml de agua"
+        },
+        {
+          "seccion": "Capa cremosa",
+          "texto": "Estevia equivalente a 10–15 g de azúcar"
+        },
+        {
+          "seccion": "Cobertura",
+          "texto": "100 g de puré de frutos rojos"
+        },
+        {
+          "seccion": "Cobertura",
+          "texto": "3 g de gelatina sin sabor y 15 ml de agua"
+        },
+        {
+          "seccion": "Cobertura",
+          "texto": "Estevia equivalente a 5–10 g de azúcar"
+        }
+      ],
+      "alergenos": [
+        "Lácteos"
+      ]
+    },
+    {
+      "clave": "miedo",
+      "nombre": "Velo Nocturno",
+      "sabor": "Chocolate y mora",
+      "historia": "Velo Nocturno es un violeta oscuro, como una cortina de noche. Lo que no vemos asusta, pero con una cucharada a la vez el misterio se vuelve conocido.",
+      "imagen": "postre-miedo.jpg",
+      "ingredientes": [
+        {
+          "seccion": "Capa cremosa",
+          "texto": "200 g de queso crema"
+        },
+        {
+          "seccion": "Capa cremosa",
+          "texto": "150 ml de crema de leche"
+        },
+        {
+          "seccion": "Capa cremosa",
+          "texto": "100 g de chocolate semiamargo, preferiblemente con 60–70 % de cacao"
+        },
+        {
+          "seccion": "Capa cremosa",
+          "texto": "80 g de puré de mora"
+        },
+        {
+          "seccion": "Capa cremosa",
+          "texto": "7 g de gelatina sin sabor y 35 ml de agua"
+        },
+        {
+          "seccion": "Capa cremosa",
+          "texto": "Estevia equivalente a 10–15 g de azúcar, ajustando después de probar el chocolate"
+        },
+        {
+          "seccion": "Cobertura",
+          "texto": "100 g de puré de mora"
+        },
+        {
+          "seccion": "Cobertura",
+          "texto": "3 g de gelatina sin sabor y 15 ml de agua"
+        },
+        {
+          "seccion": "Cobertura",
+          "texto": "Estevia equivalente a 5–10 g de azúcar"
+        }
+      ],
+      "alergenos": [
+        "Lácteos"
+      ]
+    },
+    {
+      "clave": "asco",
+      "nombre": "Ámbar Velado",
+      "sabor": "Manzana suave",
+      "historia": "Ámbar Velado es un dorado apagado, como una luz detrás de un cristal empañado. Habla de lo que preferimos mantener a distancia y del valor de decir que no.",
+      "imagen": "postre-asco.jpg",
+      "ingredientes": [
+        {
+          "seccion": "Capa cremosa",
+          "texto": "200 g de queso crema"
+        },
+        {
+          "seccion": "Capa cremosa",
+          "texto": "150 ml de crema de leche"
+        },
+        {
+          "seccion": "Capa cremosa",
+          "texto": "100 ml de leche"
+        },
+        {
+          "seccion": "Capa cremosa",
+          "texto": "120 g de puré de manzana"
+        },
+        {
+          "seccion": "Capa cremosa",
+          "texto": "Una pizca de canela, opcional"
+        },
+        {
+          "seccion": "Capa cremosa",
+          "texto": "7 g de gelatina sin sabor y 35 ml de agua"
+        },
+        {
+          "seccion": "Capa cremosa",
+          "texto": "Estevia equivalente a 15–20 g de azúcar"
+        },
+        {
+          "seccion": "Cobertura",
+          "texto": "80 g de puré de manzana"
+        },
+        {
+          "seccion": "Cobertura",
+          "texto": "3 g de gelatina sin sabor y 15 ml de agua"
+        },
+        {
+          "seccion": "Cobertura",
+          "texto": "Estevia equivalente a 5 g de azúcar"
+        },
+        {
+          "seccion": "Cobertura",
+          "texto": "Una pequeña cantidad de colorante verde, opcional"
+        }
+      ],
+      "alergenos": [
+        "Lácteos"
+      ]
+    },
+    {
+      "clave": "sorpresa",
+      "nombre": "Secreto Dorado",
+      "sabor": "Mango y maracuyá",
+      "historia": "Secreto Dorado guarda un destello inesperado. Es el postre del asombro: nunca sabes del todo qué vas a encontrar hasta que lo pruebas.",
+      "imagen": "postre-sorpresa.jpg",
+      "ingredientes": [
+        {
+          "seccion": "Capa cremosa",
+          "texto": "200 g de queso crema"
+        },
+        {
+          "seccion": "Capa cremosa",
+          "texto": "150 ml de crema de leche"
+        },
+        {
+          "seccion": "Capa cremosa",
+          "texto": "100 ml de leche"
+        },
+        {
+          "seccion": "Capa cremosa",
+          "texto": "100 g de pulpa de mango"
+        },
+        {
+          "seccion": "Capa cremosa",
+          "texto": "60 g de pulpa de maracuyá colada"
+        },
+        {
+          "seccion": "Capa cremosa",
+          "texto": "7 g de gelatina sin sabor y 35 ml de agua"
+        },
+        {
+          "seccion": "Capa cremosa",
+          "texto": "Estevia equivalente a 15–20 g de azúcar"
+        },
+        {
+          "seccion": "Cobertura",
+          "texto": "80 g de pulpa de maracuyá"
+        },
+        {
+          "seccion": "Cobertura",
+          "texto": "40 g de mango"
+        },
+        {
+          "seccion": "Cobertura",
+          "texto": "3 g de gelatina sin sabor y 15 ml de agua"
+        },
+        {
+          "seccion": "Cobertura",
+          "texto": "Estevia equivalente a 5–10 g de azúcar"
+        }
+      ],
+      "alergenos": [
+        "Lácteos"
+      ]
+    },
+    {
+      "clave": "desprecio",
+      "nombre": "Desdén",
+      "sabor": "Chocolate, café y caramelo",
+      "historia": "Desdén es elegante y de pocas palabras, con un color que mantiene la distancia. Nos invita a mirar de dónde viene lo que rechazamos antes de dar la espalda.",
+      "imagen": "postre-desprecio.jpg",
+      "ingredientes": [
+        {
+          "seccion": "Capa principal",
+          "texto": "100 g de chocolate semiamargo"
+        },
+        {
+          "seccion": "Capa principal",
+          "texto": "50 ml de café concentrado y frío"
+        },
+        {
+          "seccion": "Capa principal",
+          "texto": "7 g de gelatina sin sabor y 35 ml de agua"
+        },
+        {
+          "seccion": "Capa principal",
+          "texto": "Estevia equivalente a 10–15 g de azúcar"
+        },
+        {
+          "seccion": "Cobertura de chocolate",
+          "texto": "50 g de chocolate semiamargo"
+        },
+        {
+          "seccion": "Cobertura de chocolate",
+          "texto": "30 ml de crema de leche"
+        },
+        {
+          "seccion": "Salsa tipo caramelo reducida en azúcar",
+          "texto": "15 g de azúcar convencional"
+        },
+        {
+          "seccion": "Salsa tipo caramelo reducida en azúcar",
+          "texto": "30 ml de crema de leche"
+        },
+        {
+          "seccion": "Salsa tipo caramelo reducida en azúcar",
+          "texto": "10 g de mantequilla"
+        },
+        {
+          "seccion": "Salsa tipo caramelo reducida en azúcar",
+          "texto": "Una pizca de sal, opcional"
+        }
+      ],
+      "alergenos": [
+        "Lácteos"
+      ]
+    }
+  ]
+}
